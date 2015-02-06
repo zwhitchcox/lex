@@ -23,7 +23,6 @@ SystemPackage.register(function(app, auth, database) {
   // The middleware in config/express will run before this code
 
   // Set views path, template engine and default layout
-  app.set('views', __dirname + '/server/views');
 
   // Setting the favicon and static folder
   app.use(favicon(__dirname + '/public/assets/img/favicon.ico'));

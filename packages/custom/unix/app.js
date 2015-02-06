@@ -18,12 +18,12 @@ Unix.register(function(app, auth, database) {
 
   //We are adding a link to the main menu for all authenticated users
   Unix.menus.add({
-    title: 'unix example page',
-    link: 'unix example page',
-    roles: ['authenticated'],
+    title: 'Unix',
+    link: 'unix',
+    roles: ['anonymous','authenticated'],
     menu: 'main'
   });
-  
+
   Unix.aggregateAsset('css', 'unix.css');
 
   /**

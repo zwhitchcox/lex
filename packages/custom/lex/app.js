@@ -12,6 +12,7 @@ var Lex = new Module('lex');
  * Dependency injection is used to define required modules
  */
 Lex.register(function(app, auth, database) {
+  app.set('views', __dirname + '/server/views');
 
 
   //We enable routing. By default the Package Object is passed to the routes
