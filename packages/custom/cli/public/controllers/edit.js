@@ -24,7 +24,6 @@ angular.module('mean.cli').controller('CLIExerciseEditController', ['$scope',
     };
 
     $scope.update = function() {
-      $scope.exercise.module = $scope.exercise.module._id
       $scope.exercise.$update(function(response) {
         $scope.findOne()
         $location.path('edit/cli/' + response._id);
@@ -67,8 +66,10 @@ angular.module('mean.cli').controller('CLIExerciseEditController', ['$scope',
           }
         })
         $scope.exercise.subject.modules.forEach(function(cur) {
-          if (exercise.module === cur._id)
+          if (exercise.module.name === cur.name) {
             $scope.exercise.module = cur
+          }
+
         })
       });
     };

@@ -16,8 +16,11 @@
           <i class="glyphicon glyphicon-trash"></i>
         </a>
         <ul>
-          <li draggable="module" ng-repeat="module in subject.modules">
+          <li draggable="module" ng-repeat="module in subject.modules track by $index">
           {{module.name}}
+          <a class="btn btn-glyph" ng-click="removeModule($index,subject)">
+            <i class="glyphicon glyphicon-trash"></i>
+          </a>
         </li>
         <br>
 

@@ -11,7 +11,7 @@
 }
 
 .tagline {
-  font-famliy:"Droid Serif","Helvetica Neue",Helvetica,Arial,sans-serif;
+  font-family: "Droid Serif","Helvetica Neue",Helvetica,Arial,sans-serif;
   font-weight:400;
   font-style:italic;
   text-align: center;
@@ -33,29 +33,47 @@ section {
   display: inline-block;
   vertical-align: middle;
   line-height: normal;
+  -webkit-transition: all 0.8s ease;
+  -moz-transition: all 0.8s ease;
+  transition: all 0.8s ease;
 }
 .notecon {
   line-height: 250px;
   height: 250px;
+
 }
-.icon {
+.icon,.icon-light {
   height: 250px;
   width: auto;
+  -webkit-filter: blur(1px) grayscale(100%);
+  filter: blur(20px) grayscale(100%);
+  -webkit-transition: all 0.8s ease;
+	-moz-transition: all 0.8s ease;
+	transition: all 0.8s ease;
 }
 .row:hover .icon {
-  -webkit-filter: sepia(0.8) hue-rotate(90deg)
-    drop-shadow(6px 6px 12px rgba(0,0,0,0.25));
-  filter: sepia(0.8) hue-rotate(180deg) url(#drop-shadow);
+  -webkit-filter:drop-shadow(6px 6px 12px rgba(0,0,0,0.15));
+  filter: url(#drop-shadow);
   height:270px;
   width:auto;
   -ms-filter: "progid:DXImageTransform.Microsoft.Dropshadow(OffX=12, OffY=12, Color='#444')";
   filter: "progid:DXImageTransform.Microsoft.Dropshadow(OffX=12, OffY=12, Color='#444')";
 
 }
+.row:hover .icon-light {
+  -webkit-filter: drop-shadow(6px 6px 12px rgba(255,255,255,1));
+  filter: url(#drop-light);
+  margin-left:45px;
+  height:270px;
+  width:auto;
+  -ms-filter: "progid:DXImageTransform.Microsoft.Dropshadow(OffX=12, OffY=12, Color='#FFF')";
+  filter: "progid:DXImageTransform.Microsoft.Dropshadow(OffX=12, OffY=12, Color='#FFF')";
+
+}
+
 .row:hover .note {
-  font-size:1.15em;
-  color: #8BB79C;
-  text-shadow: 2px 2px #eee;
+  font-size:22px;
+  text-shadow: 4px 4px 6px rgba(0,0,0,0.25);
 }
 .row:hover .notecon {
   line-height: 270px;
@@ -63,6 +81,14 @@ section {
 }
 .notecon {
   cursor: default;
+}
+@media (min-width: 600px) {
+  .row:hover .icon {
+    margin-left:55px;
+  }
+  .row:hover .icon-light {
+    margin-left:55px;
+  }
 }
 </style>
 <div class="intro">
@@ -75,13 +101,13 @@ section {
 <div class="col-md-5 col-md-offset-1">
 <div class="notecon">
 <div class="note right">
-What is Lex, you ask? Well you know how school is all lame and stuff? Well, this
+What is Lex, you ask? Well you know<br> how school is all lame and stuff? Well,<br> this
 fixes that!
 </div>
 </div>
 </div>
 <div class="col-md-6">
-  <img src="/lex/assets/img/fist.png" class="icon">
+  <img src="/lex/assets/img/fist2.png" class="icon">
 </div>
 </div>
 <div class="row">
@@ -91,9 +117,9 @@ fixes that!
 <div class="col-md-5">
   <div class="notecon">
   <div class="note left">
-  The modern education system is a bubble, a behemoth. And How do you
-  take on a behemoth? You bleed it out from the inside; you look grab your sling,
-  and take your best shot. ¡Viva la Revolución!
+  The modern education system is a<br> bubble, a behemoth. And How do you<br>
+  take on a behemoth? You bleed it out<br> from the inside; you look grab your<br> sling,
+  and take your best shot. ¡Viva la<br> Revolución!
   </div>
   </div>
 </div>
@@ -102,9 +128,9 @@ fixes that!
 <div class="col-md-5 col-md-offset-1">
 <div class="notecon">
 <div class="note right">
-So instead of driving to school, wading through a bunch of crap you'll never use
-for a little you do while indebting yourself into slavery, you can just sit at
-your desk, grab a cup of Joe, and learn the smart way. Through exercises.
+So instead of driving to school, wading<br> through a bunch of crap you'll never<br> use
+for a little you do while indebting<br> yourself into slavery, you can just sit at<br>
+your desk, grab a cup of Joe, and learn<br> the smart way. Through exercises.
 </div>
 </div>
 </div>
@@ -114,7 +140,7 @@ your desk, grab a cup of Joe, and learn the smart way. Through exercises.
 </div>
 <div class="row">
 <div class="col-md-6 right">
-  <img src="/lex/assets/img/idea.png" class="icon">
+  <img src="/lex/assets/img/idea.png" class="icon-light">
 </div>
 <div class="col-md-5">
   <div class="notecon">
@@ -166,8 +192,22 @@ Lex, Learn Smart
 <svg height="0" xmlns="http://www.w3.org/2000/svg">
     <filter id="drop-shadow">
         <feGaussianBlur in="SourceAlpha" stdDeviation="4"/>
-        <feOffset dx="12" dy="12" result="offsetblur"/>
-        <feFlood flood-color="rgba(0,0,0,0.5)"/>
+        <feOffset dx="6" dy="6" result="offsetblur"/>
+        <feFlood flood-color="rgba(0,0,0,0.18)"/>
+        <feComposite in2="offsetblur" operator="in"/>
+        <feMerge>
+            <feMergeNode/>
+            <feMergeNode in="SourceGraphic"/>
+        </feMerge>
+    </filter>
+</svg>
+
+
+<svg height="0" xmlns="http://www.w3.org/2000/svg">
+    <filter id="drop-light">
+        <feGaussianBlur in="SourceAlpha" stdDeviation="4"/>
+        <feOffset dx="6" dy="6" result="offsetblur"/>
+        <feFlood flood-color="rgba(255,255,255,.5)"/>
         <feComposite in2="offsetblur" operator="in"/>
         <feMerge>
             <feMergeNode/>

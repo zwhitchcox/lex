@@ -66,19 +66,16 @@ angular.module('mean.lex', ['DragAndDrop']).controller('EditController', ['$scop
         $scope.exercises = exercises;
       });
     }
+    $scope.removeModule = function(idx,subject) {
+      subject.modules.splice(idx,1)
+      subject.$update()
+    }
     $scope.newModule= []
     $scope.addModule = function(idx,subject) {
-      var newModule = new Module({name:$scope.newModule[idx]})
-      newModule.$save(function(response){
-        subject.modules = subject.modules.map(function(val) {
-            return val._id
-          })
-        subject.modules.push(response._id)
+        subject.modules.push({name:$scope.newModule[idx]})
         subject.$update(function(){
           $scope.find()
         })
-      })
-
     }
 
     $scope.subjectType = $stateParams.modelName

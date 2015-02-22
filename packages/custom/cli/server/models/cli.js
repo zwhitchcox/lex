@@ -4,8 +4,7 @@
  * Module dependencies.
  */
 var mongoose = require('mongoose'),
-  Schema = mongoose.Schema;
-
+  Schema = mongoose.Schema
 
 /**
  * CLI Schema
@@ -28,10 +27,7 @@ var CLISchema = new Schema({
     require: true,
     ref: 'Subject'
   },
-  module: {
-    type: Schema.ObjectId,
-    ref: 'Module'
-  }
+  module: {name:String}
 });
 
 

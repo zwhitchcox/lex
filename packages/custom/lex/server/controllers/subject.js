@@ -89,7 +89,7 @@ exports.destroy = function(req, res) {
  * List of Subjects
  */
 exports.all = function(req, res) {
-  Subject.find().populate('modules').exec(function(err, subjects) {
+  Subject.find().exec(function(err, subjects) {
     if (err) {
       console.log(err)
       return res.status(500).json({
