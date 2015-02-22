@@ -1,0 +1,15 @@
+<section ng-controller="EditController" ng-init="getExercises()">
+
+  <ul class="subjects unstyled list-group col-md-6 shadowed-list-group">
+    <li class="list-group-item" data-ng-repeat="exercise in exercises">
+      {{exercise.challenge}}
+      <a class="btn btn-glyph" ng-href="edit/{{subjectType}}/{{exercise._id}}">
+        <i class="glyphicon glyphicon-edit"></i>
+      </a>
+      <a class="btn btn-glyph" data-ng-click="remove(subject);">
+        <i class="glyphicon glyphicon-trash"></i>
+      </a>
+    </li>
+  </ul>
+  <a class="edit" ng-href="/edit/{{subjectType}}/{{subjectName}}/create"><i class="glyphicon glyphicon-plus"></i></a>
+</section>

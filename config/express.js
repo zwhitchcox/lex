@@ -32,8 +32,9 @@ module.exports = function(app, db) {
     level: 9
   }));
 
+  var oneDay = 86400000;
   // Enable compression on bower_components
-  app.use('/bower_components', express.static(config.root + '/bower_components'));
+  app.use('/bower_components', express.static(config.root + '/bower_components', {maxAge:86400000}));
 
   // Only use logger for development environment
   if (process.env.NODE_ENV === 'development') {
@@ -53,8 +54,10 @@ module.exports = function(app, db) {
   // Connect flash for flash messages
   app.use(flash());
 
+
+
   app.use(modRewrite([
-    '!^/api/.*|\\_getModules|\\.html|\\.js|\\.css|\\.swf|\\.jp(e?)g|\\.png|\\.gif|\\.svg|\\.eot|\\.ttf|\\.woff|\\.pdf$ / [L]'
+    '!^/api/.*|\\_getModules|\\.html|\\.js|\\.css|\\.swf|\\.jp(e?)g|\\.png|\\.gif|\\.svg|\\.eot|\\.ttf|\\.ico|\\.woff|\\.pdf$ / [L]'
   ]));
 
   app.use(seo());

@@ -3,7 +3,8 @@
 /*
  * Defining the Package
  */
-var Module = require('meanio').Module;
+var Module = require('meanio').Module,
+favicon = require('serve-favicon');
 
 var Lex = new Module('lex');
 
@@ -18,9 +19,15 @@ Lex.register(function(app, auth, database) {
   //We enable routing. By default the Package Object is passed to the routes
   Lex.routes(app, auth, database);
 
+  Lex.menus.add({
+    title: 'Subjects',
+    link: 'subjects',
+    menu: 'main'
+  });
 
 
   Lex.aggregateAsset('css', 'lex.css');
+  app.use(favicon(__dirname + '/public/assets/img/favicon.gif'));
 
   /**
     //Uncomment to use. Requires meanio@0.3.7 or above

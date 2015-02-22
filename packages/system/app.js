@@ -3,8 +3,7 @@
 /*
  * Defining the Package
  */
-var Module = require('meanio').Module,
-  favicon = require('serve-favicon');
+var Module = require('meanio').Module;
 
 var SystemPackage = new Module('system');
 
@@ -25,7 +24,6 @@ SystemPackage.register(function(app, auth, database) {
   // Set views path, template engine and default layout
 
   // Setting the favicon and static folder
-  app.use(favicon(__dirname + '/public/assets/img/favicon.ico'));
 
   // Adding robots and humans txt
   app.useStatic(__dirname + '/public/assets/static');

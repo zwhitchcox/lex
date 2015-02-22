@@ -1,0 +1,58 @@
+<section ng-controller="CLIExerciseEditController" ng-init="findSubjects()">
+
+<form class="form-horizontal" name="challengeForm" ng-submit="create()">
+
+<div class="form-group">
+<label class="col-sm-2 control-label">Subject</label>
+<div class="col-md-3 col-sm-4">
+  <select ng-model="exercise.subject" ng-options="subject as subject.name for subject in subjects" class="form-control">
+  </select>
+</div>
+</div>
+
+<div class="form-group">
+  <label class="col-sm-2 control-label">Module</label>
+<div class="col-md-3 col-sm-4">
+  <select ng-model="exercise.module" ng-options="module as module for module in exercise.subject.modules" class="form-control">
+  </select>
+</div>
+</div>
+
+<div class="form-group">
+<label class="col-sm-2 control-label">Challenge</label>
+<div class="col-sm-9">
+    <textarea class="form-control" ng-model="exercise.challenge" rows="3"></textarea>
+</div>
+</div>
+
+<div class="form-group">
+<label class="col-sm-2 control-label">Solutions</label>
+<div class="col-sm-9">
+<ul class="subjects unstyled list-group">
+  <li class="list-group-item">
+        <input ng-model="newSolution" class="col-xs-10">
+        <a class="btn btn-md btn-glyph" ng-click="addSol()">
+          <i class="glyphicon glyphicon-plus"></i>
+        </a>
+  </li>
+  <li class="list-group-item" data-ng-repeat="solution in exercise.solutions track by $index">
+      <input ng-model="exercise.solutions[$index]" class="col-xs-10">
+      <a class="btn btn-md btn-glyph" ng-click="removeSol($index)">
+        <i class="glyphicon glyphicon-trash"></i>
+      </a>
+  </li>
+</ul>
+</div>
+</div>
+
+<div class="form-group">
+<label class="col-sm-2 control-label">Output</label>
+<div class="col-sm-9">
+    <textarea class="form-control" ng-model="exercise.output" rows="7"></textarea>
+</div>
+</div>
+<div class="col-sm-offset-2">
+<button type="submit" class="btn btn-info">Submit</button>
+</div>
+</form>
+</section>

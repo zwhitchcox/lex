@@ -1,0 +1,59 @@
+.btn-glyph {
+  padding:0px 6px;
+  font-size:15px;
+}
+.terminal {
+  padding:19px;
+  border-radius: 12px;
+  box-shadow: inset 0 -2px 2px rgba(0,0,0,0.5), /*bottom internal shadow*/
+  inset 0 2px 2px rgba(150,150,150,.9),/*top internal highlight*/
+  0 6px 15px 0 rgba(0, 0, 0, .5);
+}
+.terminal, .cmd {
+  background: #444;
+
+  color: #41FB41;
+  font-size: 17px;
+  line-height: 18px;
+   /*top internal highlight*/
+}
+@keyframes blink {
+  0%, 100% {
+        background-color: #444;
+        color: #41FB41;
+  }
+  50% {
+        background-color: #41FB41; /* not #aaa because it's seem there is Google Chrome bug */
+        color: #444;
+  }
+}
+@-webkit-keyframes blink {
+  0%, 100% {
+        background-color: #444;
+        color: #41FB41;
+  }
+  50% {
+        background-color: #41FB41;
+        color: #444;
+  }
+}
+@-ms-keyframes blink {
+  0%, 100% {
+        background-color: #444;
+        color: #41FB41;
+  }
+  50% {
+        background-color: #41FB41;
+        color: #444;
+  }
+}
+@-moz-keyframes blink {
+  0%, 100% {
+        background-color: #444;
+        color: #41FB41;
+  }
+  50% {
+        background-color: #41FB41;
+        color: #444;
+  }
+}

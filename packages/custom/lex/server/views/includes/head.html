@@ -5,10 +5,10 @@
   <meta name="fragment" content="!">
   <base href="/">
 
-  <title>{{appName}} - {{title}}</title>
+  <title>Lex - Learn Smart</title>
   <meta http-equiv="Content-type" content="text/html;charset=UTF-8">
   <meta name="keywords" content="node.js, express, mongoose, mongodb, angularjs, swig">
-  <meta name="description" content="MEAN - A Modern Stack: MongoDB, ExpressJS, AngularJS, NodeJS. (BONUS: Passport User Support).">
+  <meta name="description" content="Lex - Learn Through Exercises">
 
   <meta property="fb:app_id" content="APP_ID">
   <meta property="og:title" content="{{appName}} - {{title}}">
@@ -19,7 +19,10 @@
   <meta property="og:site_name" content="MEAN - A Modern Stack">
   <meta property="fb:admins" content="APP_ADMIN">
 
-  <link rel="stylesheet" href="/bower_components/bootstrap/dist/css/bootstrap.css">
+  <link rel="stylesheet" href="/bower_components/bootstrap/dist/css/bootstrap-simplex.css">
+  <link rel="stylesheet" href="/bower_components/jquery.terminal/css/jquery.terminal.css">
+  <link rel="stylesheet" href="/bower_components/codemirror/lib/codemirror.css">
+
 
   {% for file in aggregatedassets.header.css %}
     <link rel="stylesheet" href="{{file}}">

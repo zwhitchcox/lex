@@ -12,7 +12,13 @@
         "bower_components/angular-resource/angular-resource.min.js",
         "bower_components/angular-ui-router/release/angular-ui-router.min.js",
         "bower_components/angular-bootstrap/ui-bootstrap-tpls.js",
-        "bower_components/web-bootstrap/index.js"
+        "bower_components/web-bootstrap/index.js",
+        "bower_components/jquery.terminal/js/jquery.mousewheel-min.js",
+        "bower_components/jquery.terminal/js/jquery.terminal-min.js",
+        "bower_components/codemirror/lib/codemirror.js",
+        "bower_components/codemirror/mode/shell/shell.js",
+        "bower_components/underscore/underscore-min.js",
+        "bower_components/Angular-DragAndDrop/src/ngdragndrop.js"
       ]
     }
   }
