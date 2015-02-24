@@ -58,13 +58,9 @@ exports.show = function(req, res) {
   res.json(req.exercise);
 };
 
-
-/**
- * Delete an subject
- */
 exports.destroy = function(req, res) {
   var exercise = req.exercise;
-
+  console.log(exercise)
   exercise.remove(function(err) {
     if (err) {
       return res.status(500).json({

@@ -19,7 +19,7 @@ var SubjectSchema = new Schema({
     type:String,
     required: true
   },
-  modules:['Module']
+  modules:[String]
 });
 
 

@@ -88,21 +88,8 @@ exports.destroy = function(req, res) {
 /**
  * List of Subjects
  */
-exports.all = function(req, res) {
-  Subject.find().exec(function(err, subjects) {
-    if (err) {
-      console.log(err)
-      return res.status(500).json({
-        error: 'Cannot list the subjects'
-      });
-    }
-    res.json(subjects);
-
-  });
-};
-
-exports.exercises = function(req, res, next, subjectName) {
-  Subject.findOne({name:{ $regex: new RegExp("^" + subjectName, "i") }}).exec(getEx)
+exports.allExercises = function(req, res) {
+  Subject.findOne({name:{ $regex: new RegExp("^" + req.subjectName, "i") }}).exec(getEx)
   function getEx (err, subj) {
       if (subj === null) {
         return res.status(500).json({error:'cannot list exercises'})
@@ -116,6 +103,23 @@ exports.exercises = function(req, res, next, subjectName) {
       res.json(exercises);
     });
   }
+};
+exports.allSubjects = function(req,res) {
+  Subject.find().exec(function(err, subjects) {
+    if (err) {
+      console.log(err)
+      return res.status(500).json({
+        error: 'Cannot list the subjects'
+      });
+    }
+    res.json(subjects);
+
+  });
+}
+
+exports.subjectName = function(req, res, next, subjectName) {
+  req.subjectName = subjectName
+  next()
 };
 
 exports.model = function(req, res, next, modelName) {

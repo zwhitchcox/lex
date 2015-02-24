@@ -1,7 +1,9 @@
 <section ng-controller="CLIExerciseEditController" ng-init="findSubjects();findOne()">
 
+<a ng-href="/edit/cli/{{exercise.subject.name}}/exercises">
+  <i class="glyphicon glyphicon-menu-left"></i>
+</a>
 <form class="form-horizontal" name="exerciseForm" ng-submit="update()">
-
 <div class="form-group">
 <label class="col-sm-2 control-label">Subject</label>
 <div class="col-md-3 col-sm-4">
@@ -13,7 +15,7 @@
 <div class="form-group">
   <label class="col-sm-2 control-label">Module</label>
 <div class="col-md-3 col-sm-4">
-  <select ng-model="exercise.module" ng-options="module as module.name for module in exercise.subject.modules" class="form-control">
+  <select ng-model="exercise.module" ng-options="module as module for module in exercise.subject.modules" class="form-control">
   </select>
 </div>
 </div>
@@ -30,7 +32,7 @@
 <div class="col-sm-9">
 <ul class="subjects unstyled list-group">
   <li class="list-group-item">
-        <input ng-model="newSolution" class="col-xs-10">
+        <input ng-model="newSolution" class="col-xs-10" ng-enter="addSol()">
         <a class="btn btn-md btn-glyph" ng-click="addSol()">
           <i class="glyphicon glyphicon-plus"></i>
         </a>
@@ -52,7 +54,7 @@
 </div>
 </div>
 <div class="col-sm-offset-2">
-<button type="submit" class="btn btn-info">Submit</button>
+<button type="submit" class="btn btn-info">Save</button>
 </div>
 </form>
 </section>

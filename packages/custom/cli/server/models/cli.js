@@ -15,7 +15,7 @@ var CLISchema = new Schema({
     required: true
   },
   solutions: {
-    type: Array,
+    type: [String],
     trim: true
   },
   output: {

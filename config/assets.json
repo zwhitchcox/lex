@@ -17,8 +17,7 @@
         "bower_components/jquery.terminal/js/jquery.terminal-min.js",
         "bower_components/codemirror/lib/codemirror.js",
         "bower_components/codemirror/mode/shell/shell.js",
-        "bower_components/underscore/underscore-min.js",
-        "bower_components/Angular-DragAndDrop/src/ngdragndrop.js"
+        "bower_components/underscore/underscore-min.js"
       ]
     }
   }

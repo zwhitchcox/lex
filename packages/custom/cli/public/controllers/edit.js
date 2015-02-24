@@ -18,8 +18,7 @@ angular.module('mean.cli').controller('CLIExerciseEditController', ['$scope',
           solutions: $scope.exercise.solutions
         });
         exercise.$save(function(response) {
-          alert('saved')
-          $location.path('exercises/');
+          $location.path('edit/cli/'+$stateParams.subjectName+'/exercises');
         });
     };
 
@@ -52,7 +51,7 @@ angular.module('mean.cli').controller('CLIExerciseEditController', ['$scope',
     }
 
     $scope.removeSol = function(index) {
-      $scope.solutions.splice(index,1)
+      $scope.exercise.solutions.splice(index,1)
     }
 
     $scope.findOne = function() {
@@ -65,12 +64,9 @@ angular.module('mean.cli').controller('CLIExerciseEditController', ['$scope',
             $scope.exercise.subject = cur
           }
         })
-        $scope.exercise.subject.modules.forEach(function(cur) {
-          if (exercise.module.name === cur.name) {
-            $scope.exercise.module = cur
-          }
-
-        })
+        $scope.exercise.module = $scope.exercise.subject.modules[
+            $scope.exercise.subject.modules.indexOf(exercise.module)
+          ]
       });
     };
 

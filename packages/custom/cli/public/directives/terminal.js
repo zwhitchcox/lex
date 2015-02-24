@@ -5,6 +5,9 @@ angular.module('mean.cli').directive('terminal', function() {
       template: '<div ng-class="termClass"></div>',
       replace: true,
       controller: function($scope,$rootScope,$element) {
+        window.onresize = function(){
+          $element.css('height',window.innerHeight/2)
+        }
         $scope.toggleFull = function() {
           if ($scope.full) {
               if(document.exitFullscreen) {

@@ -31,7 +31,7 @@
 <ul class="subjects unstyled list-group">
   <li class="list-group-item">
         <input ng-model="newSolution" class="col-xs-10">
-        <a class="btn btn-md btn-glyph" ng-click="addSol()">
+        <a class="btn btn-md btn-glyph" ng-click="addSol()"  ng-enter="addSol()">
           <i class="glyphicon glyphicon-plus"></i>
         </a>
   </li>
@@ -52,7 +52,7 @@
 </div>
 </div>
 <div class="col-sm-offset-2">
-<button type="submit" class="btn btn-info">Submit</button>
+<button type="submit" class="btn btn-info">Save</button>
 </div>
 </form>
 </section>

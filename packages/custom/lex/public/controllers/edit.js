@@ -1,14 +1,35 @@
 'use strict';
 
-angular.module('mean.lex', ['DragAndDrop']).controller('EditController', ['$scope', '$stateParams',
-  '$location', 'Global', 'Subject','Exercises','Module', 'SubjectHelper',
+angular.module('mean.lex').controller('EditController', ['$scope', '$stateParams',
+  '$location', 'Global', 'Subject','Exercises','Module', 'SubjectHelper','$resource',
+  '$rootScope',
   function($scope, $stateParams, $location, Global, Subject, Exercises,
-      Module, SubjectHelper) {
+      Module, SubjectHelper,$resource,$rootScope) {
     $scope.global = Global;
     $scope.hasAuthorization = function(subject) {
       if (!subject || !subject.user) return false;
       return $scope.global.isAdmin;
     };
+
+    $scope.setDragging = function(dragon) {
+      $scope.dragging = dragon
+    }
+
+    $scope.insert = function(droppedOn,subject) {
+      subject.modules.splice(droppedOn,0,subject.modules[$scope.dragging])
+      if ($scope.dragging>droppedOn) {
+        subject.modules.splice($scope.dragging+1,1)
+      } else {
+        subject.modules.splice($scope.dragging,1)
+      }
+      subject.$update()
+    }
+
+    $rootScope.show
+    $scope.changeShow = function(idx) {
+      if ($scope.show===-2) return $scope.show++
+      $scope.show=idx
+    }
 
     $scope.create = function() {
       var subject = new Subject({
@@ -30,14 +51,15 @@ angular.module('mean.lex', ['DragAndDrop']).controller('EditController', ['$scop
             $scope.subjects.splice(i,1);
           }
         }
-        $location.path('subjects');
+        $location.path('edit/subjects');
       });
     };
+    $scope.removeExercise = function(exercise) {
+      exercise.$remove($scope.getExercises)
+    }
 
     $scope.update = function(subject) {
-      subject.$update(function() {
-        subject.modules = subject.modules.join(' ')
-      });
+      subject.$update();
     };
 
     $scope.find = function() {
@@ -71,13 +93,14 @@ angular.module('mean.lex', ['DragAndDrop']).controller('EditController', ['$scop
       subject.$update()
     }
     $scope.newModule= []
+
     $scope.addModule = function(idx,subject) {
-        subject.modules.push({name:$scope.newModule[idx]})
+        subject.modules.push($scope.newModule[idx])
         subject.$update(function(){
+          $scope.newModule[idx] = ''
           $scope.find()
         })
     }
-
     $scope.subjectType = $stateParams.modelName
     $scope.subjectName = $stateParams.subjectName
   }

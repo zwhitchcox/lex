@@ -1,0 +1,57 @@
+<section ng-controller="EditController" ng-init="find()">
+  <ul class="subjects unstyled list-group col-md-8 shadowed-list-group">
+    <li class="list-group-item">
+        Name: <input ng-model="newName"> Type: <input ng-model="newType">
+          <a class="btn btn-md" ng-click="create();">
+            <i class="glyphicon glyphicon-plus"></i>
+          </a>
+    </li>
+    <li class="list-group-item" ng-repeat="subject in subjects track by $index"
+      ng-click="changeShow($index)" >
+      <span ng-show="show!==$index">{{subject.name}}</span>
+      <div ng-show="show===$index">
+      <form class="form-inline">
+        <div class="form-group">
+          <label>Name: </label>
+          <input type="text" class="form-control" ng-model="subject.name">
+        </div>
+        <div class="form-group">
+          <label>Type: </label>
+          <input class="form-control" ng-model="subject.type">
+        </div>
+        <a class="btn btn-glyph" ng-click="update(subject);">
+          <i class="glyphicon glyphicon-floppy-disk"></i>
+        </a>
+        <a class="btn btn-glyph" ng-click="remove(subject);">
+          <i class="glyphicon glyphicon-trash"></i>
+        </a>
+        <a class="btn btn-glyph" ng-click="changeShow(-2)">
+          <i class="glyphicon glyphicon-eject"></i>
+        </a>
+      </form>
+      <br>
+        <ul class="unstyled list-group">
+          <li class="list-group-item" ng-repeat="module in subject.modules track by $index"
+          draggable="true" ng-drop="insert($index,subject)" ng-drag="setDragging($index)">
+          {{module}}
+          <button class="btn btn-xs btn-inverse pull-right" ng-click="removeModule($index,subject)">
+            <i class="glyphicon glyphicon-trash"></i>
+          </button>
+        </li>
+        <br>
+        <div class="form-group">
+          <div class="input-group">
+            <input ng-enter="addModule($index,subject)" ng-model="newModule[$index]"
+              class="form-control" placeholder="New Module">
+            <div class="input-group-btn" ng-click="addModule($index,subject)">
+              <button type="button" class="btn btn-inverted">
+                <i class="glyphicon glyphicon-plus"></i>
+              </button>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </li>
+  </ul>
+</section>

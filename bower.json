@@ -12,8 +12,7 @@
     "web-bootstrap": "./node_modules/meanio/resources/web-bootstrap.js",
     "jquery.terminal": "git://github.com/jcubic/jquery.terminal.git#~0.8.8",
     "codemirror": "git://github.com/codemirror/CodeMirror.git",
-    "underscore": "~1.8.1",
-    "Angular-DragAndDrop": "git://github.com/Ciul/Angular-DragAndDrop.git"
+    "underscore": "~1.8.1"
   },
   "resolutions": {
     "jquery": "*"

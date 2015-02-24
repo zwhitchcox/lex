@@ -1,7 +1,6 @@
 'use strict';
 var subject = require('../controllers/subject'),
-  exercise  = require('../controllers/exercise'),
-  mymodule    = require('../controllers/module')
+  exercise  = require('../controllers/exercise')
 
 /* jshint -W098 */
 // The Package is past automatically as first parameter
@@ -14,9 +13,13 @@ module.exports = function(Lex, app, auth, database) {
     next();
   };
   app.route('/api/model/:modelName/:subjectName/exercises')
-    .get(subject.exercises)
+    .get(subject.allExercises)
+  app.route('/api/model/:modelName/:subjectName/exercises/:exerciseId')
+    .get(auth.isMongoId, exercise.show)
+    .put(auth.isMongoId, auth.requiresLogin, hasAuthorization, exercise.update)
+    .delete(auth.isMongoId, auth.requiresLogin, hasAuthorization, exercise.destroy);
   app.route('/api/subjects')
-    .get(subject.all)
+    .get(subject.allSubjects)
     .post(auth.requiresLogin, subject.create);
   app.route('/api/subjects/:subjectId')
     .get(subject.subject)
@@ -28,15 +31,9 @@ module.exports = function(Lex, app, auth, database) {
     .get(auth.isMongoId, exercise.show)
     .put(auth.isMongoId, auth.requiresLogin, hasAuthorization, exercise.update)
     .delete(auth.isMongoId, auth.requiresLogin, hasAuthorization, exercise.destroy);
-  app.route('/api/modules')
-    .post(auth.requiresLogin, mymodule.create);
-  app.route('/api/modules/:moduleId')
-    .put(auth.isMongoId, auth.requiresLogin, hasAuthorization, mymodule.update)
-    .delete(auth.isMongoId, auth.requiresLogin, hasAuthorization, mymodule.destroy);
   app.param('subjectId', subject.subject);
-  app.param('subjectName', subject.exercises);
+  app.param('subjectName', subject.subjectName);
   app.param('modelName', subject.model);
   app.param('exerciseId',exercise.exercise)
-  app.param('moduleId', mymodule.module)
 
 };
