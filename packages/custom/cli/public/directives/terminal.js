@@ -6,7 +6,8 @@ angular.module('mean.cli').directive('terminal', function() {
       replace: true,
       controller: function($scope,$rootScope,$element) {
         window.onresize = function(){
-          $element.css('height',window.innerHeight/2)
+          if (!$scope.full)
+            $element.css('height',window.innerHeight/2)
         }
         $scope.toggleFull = function() {
           if ($scope.full) {
@@ -60,13 +61,14 @@ angular.module('mean.cli').directive('terminal', function() {
         }
       },
       link: function (scope, elem ) {
+        scope.terminal =
           $(elem).terminal(function (cmd, term) {
             if (/^\s*full\s*$/g.test(cmd)) {
               scope.toggleFull()
             } else if (/^\s*pfull\s*$/g.test(cmd)) {
               scope.togglePartiallyFull()
             } else scope.processCmd(cmd,term)
-          }, {prompt: '$ ',height:window.innerHeight/2,greetings: scope.greetings});
+          }, {prompt: scope.prompt,height:window.innerHeight/2,greetings: scope.greetings});
         }
     }
 });

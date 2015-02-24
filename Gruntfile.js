@@ -121,9 +121,6 @@ module.exports = function(grunt) {
   if (process.env.NODE_ENV === 'production') {
     grunt.hook.push('cssmin', 100);
     grunt.hook.push('uglify', 200);
-  } else {
-    grunt.hook.push('jshint', -200);
-    grunt.hook.push('csslint', 100);
   }
 
   //Default task.

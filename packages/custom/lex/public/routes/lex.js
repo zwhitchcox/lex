@@ -21,12 +21,34 @@ angular.module('mean.lex').config(['$stateProvider',
       });
     }
 
+    var noHomo = function($q, $timeout, $http, $location) {
+      // Initialize a new promise
+      var deferred = $q.defer();
+
+      // Make an AJAX call to check if the user is logged in
+      $http.get('/api/loggedin').success(function(user) {
+        // Authenticated
+        if (user !== '0') {
+          $timeout(deferred.reject);
+          $location.url('/subjects');
+        }
+
+        // Not Authenticated
+        else {
+          $timeout(deferred.resolve);
+
+        }
+      });
+    }
 
 
     $stateProvider
     .state('home', {
       url: '/',
-      templateUrl: 'lex/views/index.html'
+      templateUrl: 'lex/views/home.html',
+      resolve: {
+        goHome: noHomo
+      }
     })
     .state('subjects', {
       url: '/subjects',

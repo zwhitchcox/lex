@@ -4,7 +4,7 @@
 
 a {color:#222}
 a:hover {text-decoration:none !important;}
-.btn:hover {color:#777; text-decoration:none;}
+.btn-glyph:hover {color:#777; text-decoration:none;}
 body { font-size:15px; background-color:#F5F6F5 }
 .navbar-default {
   box-shadow:0 1px 3px 0 rgba(0, 0, 0, .13);

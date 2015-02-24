@@ -27,7 +27,7 @@ angular.module('mean.cli').config(['$stateProvider',
     $stateProvider
       .state('cli', {
         url: '/cli/:subjectName',
-        templateUrl: 'cli/views/index.html'
+        templateUrl: 'cli/views/play.html'
       })
       .state('create cli exercise', {
         url: '/edit/cli/:subjectName/create',
