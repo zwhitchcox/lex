@@ -67,7 +67,8 @@ angular.module('mean.lex').controller('EditController', ['$scope', '$stateParams
         $scope.subjects = subjects;
          $scope.subjectsByCategory = $.extend(true,{},SubjectHelper)
         $scope.subjects.forEach(function(subject) {
-          $scope.subjectsByCategory[subject.type].subjects.push(subject)
+          if ($scope.subjectsByCategory[subject.type])
+            $scope.subjectsByCategory[subject.type].subjects.push(subject)
         })
       });
     };

@@ -25,3 +25,10 @@ body { font-size:15px; background-color:#F5F6F5 }
   border-radius: 6px;
   padding-right:0;
 }
+.forgotpwd {
+  padding-bottom: 10px;
+padding-left: 10px;
+}
+.forgotpwd a {
+  color:#777;
+}
