@@ -1,0 +1,18 @@
+<div ng-controller="AlgosCtrl">
+
+<form>
+<textarea ng-model="code" cols="40" rows="10">
+</textarea><br />
+<button type="button" ng-click="runit()">Run</button>
+</form>
+<div ng-repeat="o in output track by $index">
+{{o}}
+</div>
+
+<!-- If you want turtle graphics include a canvas -->
+<canvas id="mycanvas" ></mycanvas>
+
+</body>
+<script src="bower_components/skulpt/skulpt.min.js"></script>
+<script src="bower_components/skulpt/skulpt-stdlib.js"></script>
+</div>

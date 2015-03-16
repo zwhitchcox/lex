@@ -7,7 +7,7 @@ angular.module('mean.cli').directive('terminal', function() {
       controller: function($scope,$rootScope,$element) {
         window.onresize = function(){
           if (!$scope.full)
-            $element.css('height',window.innerHeight/2)
+            $element.css('height',window.innerHeight/1.5)
         }
         $scope.toggleFull = function() {
           if ($scope.full) {
@@ -20,7 +20,7 @@ angular.module('mean.cli').directive('terminal', function() {
               }
             $('.navbar').css('display', 'block')
             $element.css('border-radius','12px')
-            $element.css('height',window.innerHeight/2)
+            $element.css('height',window.innerHeight/1.7)
             $scope.termClass = ''
           } else {
             if(document.documentElement.requestFullscreen) {
@@ -50,7 +50,7 @@ angular.module('mean.cli').directive('terminal', function() {
           } else {
             $('.navbar').css('display', 'block')
             $element.css('border-radius','12px')
-            $element.css('height',window.innerHeight/2)
+            $element.css('height',window.innerHeight/1.7)
             $scope.termClass = ''
           }
           $rootScope.$apply()
@@ -68,7 +68,7 @@ angular.module('mean.cli').directive('terminal', function() {
             } else if (/^\s*pfull\s*$/g.test(cmd)) {
               scope.togglePartiallyFull()
             } else scope.processCmd(cmd,term)
-          }, {prompt: scope.prompt,height:window.innerHeight/2,greetings: scope.greetings});
+          }, {prompt: scope.prompt,height:window.innerHeight/1.7,greetings: scope.greetings});
         }
     }
 });

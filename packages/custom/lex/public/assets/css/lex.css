@@ -15,7 +15,7 @@ body { font-size:15px; background-color:#F5F6F5 }
   right: 30px;
 }
 .back {
-  position: absolute;
+  position: fixed;
   top: 60px;
   left: 30px;
 }

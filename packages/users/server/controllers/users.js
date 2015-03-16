@@ -15,7 +15,7 @@ var mongoose = require('mongoose'),
  * Auth callback
  */
 exports.authCallback = function(req, res) {
-  res.redirect('/');
+  res.redirect('/subjects');
 };
 
 /**
@@ -229,3 +229,22 @@ exports.forgotpassword = function(req, res, next) {
     }
   );
 };
+
+exports.subjectName = function(req,res,next,subjectName) {
+  req.subjectName = subjectName
+  next()
+}
+
+exports.moduleName = function(req,res,next,moduleName) {
+  req.moduleName = moduleName
+  next()
+}
+
+exports.addModule = function(req,res) {
+  if (!~req.user.modules[req.subjectName.toLowerCase()].indexOf(req.moduleName)) {
+    req.user.modules[req.subjectName.toLowerCase()].push(req.moduleName)
+    req.user.save(function(err) {
+      res.json(req.user)
+    })
+  }
+}

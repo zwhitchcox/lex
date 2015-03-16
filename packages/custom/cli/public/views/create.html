@@ -25,32 +25,38 @@
 </div>
 </div>
 
+<div class="form-group" ng-class="{'has-error':!val()}">
+  <label class="col-sm-2 control-label">Sample</label>
+<div class="col-md-3 col-sm-4">
+  <input ng-model="exercise.sample" class="form-control">
+</div>
+</div>
+
 <div class="form-group">
-<label class="col-sm-2 control-label">Solutions</label>
+<label class="col-sm-2 control-label">Solution</label>
 <div class="col-sm-9">
-<ul class="subjects unstyled list-group">
-  <li class="list-group-item">
-        <input ng-model="newSolution" class="col-xs-10">
-        <a class="btn btn-md btn-glyph" ng-click="addSol()"  ng-enter="addSol()">
-          <i class="glyphicon glyphicon-plus"></i>
-        </a>
-  </li>
-  <li class="list-group-item" data-ng-repeat="solution in exercise.solutions track by $index">
-      <input ng-model="exercise.solutions[$index]" class="col-xs-10">
-      <a class="btn btn-md btn-glyph" ng-click="removeSol($index)">
-        <i class="glyphicon glyphicon-trash"></i>
-      </a>
-  </li>
-</ul>
+    <textarea class="form-control" ng-model="exercise.solution" rows="7"
+      style="font-family:monospace;"></textarea>
 </div>
 </div>
 
 <div class="form-group">
 <label class="col-sm-2 control-label">Output</label>
 <div class="col-sm-9">
-    <textarea class="form-control" ng-model="exercise.output" rows="7"></textarea>
+    <textarea class="form-control" ng-model="exercise.output" rows="7"
+      style="font-family:monospace;"></textarea>
 </div>
 </div>
+
+<div class="form-group">
+  <label class="col-sm-2 control-label">Next</label>
+<div class="col-md-3 col-sm-4">
+  <select ng-model="exercise.next" ng-options="ex._id as ex.challenge for ex in nextEx"
+  class="form-control" ng-watch="modulesBySubject">
+</select>
+<span class="input-group-addon" ng-click="exercise.next=null">X</span>
+</div>
+
 <div class="col-sm-offset-2">
 <button type="submit" class="btn btn-info">Save</button>
 </div>

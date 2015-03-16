@@ -4,10 +4,7 @@ var paths = {
   js: ['*.js', 'test/**/*.js', '!test/coverage/**', '!bower_components/**', 'packages/**/*.js', '!packages/**/node_modules/**', '!packages/contrib/**/*.js', '!packages/contrib/**/node_modules/**'],
   html: ['packages/**/public/**/views/**', 'packages/**/server/views/**'],
   css: ['!bower_components/**', 'packages/**/public/**/css/*.css', '!packages/contrib/**/public/**/css/*.css'],
-  coffee: ['*.coffee', 'test/**/*.coffee', '!test/coverage/**', '!bower_components/**', 'packages/**/*.coffee', '!packages/**/node_modules/**', '!packages/contrib/**/*.coffee', '!packages/contrib/**/node_modules/**'],
-  es6:['*.es6', 'test/**/*.es6', '!test/coverage/**', '!bower_components/**', 'packages/**/*.es6', '!packages/**/node_modules/**', '!packages/contrib/**/*.es6', '!packages/contrib/**/node_modules/**']
-
-
+  coffee: ['*.coffee', 'test/**/*.coffee', '!test/coverage/**', '!bower_components/**', 'packages/**/public/**/*.coffee',  '!packages/contrib/**/*.coffee', '!packages/contrib/**/node_modules/**']
 };
 
 module.exports = function(grunt) {
@@ -18,23 +15,6 @@ module.exports = function(grunt) {
 
   // Project Configuration
   grunt.initConfig({
-    traceur: {
-      options: {
-        // traceur options here
-        experimental: true,
-        // module naming options,
-        copyRuntime: 'bower_components/traceur'
-      },
-      custom: {
-        files: [{
-          expand: true,
-          cwd: '',
-          src: [paths.es6],
-          dest: '',
-          ext:'.js'
-        }]
-      },
-    },
     coffee: {
       glob_to_multiple: {
         expand: true,
@@ -56,16 +36,14 @@ module.exports = function(grunt) {
           livereload: true
         }
       },
-      es6: {
-        files: paths.es6,
-        tasks: ['traceur'],
+      coffee2: {
+        files: 'packages/**/server/**/*.coffee',
         options: {
-          livereload: true
+          livereload:true
         }
       },
       js: {
         files: paths.js,
-        tasks: ['coffee','traceur'],
         options: {
           livereload: true
         }
@@ -164,7 +142,6 @@ module.exports = function(grunt) {
   grunt.hook.push('clean', -9999);
   grunt.hook.push('concurrent', 9999);
   grunt.hook.push('coffee', -9998)
-  grunt.hook.push('traceur',-9997)
   if (process.env.NODE_ENV === 'production') {
     grunt.hook.push('cssmin', 100);
     grunt.hook.push('uglify', 200);

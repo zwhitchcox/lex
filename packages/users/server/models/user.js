@@ -45,16 +45,20 @@ var escapeProperty = function(value) {
 var UserSchema = new Schema({
   name: {
     type: String,
-    required: true,
+    required:true,
     get: escapeProperty
   },
   email: {
     type: String,
-    required: true,
     unique: true,
     // Regexp to validate emails with more strict rules as added in tests/users.js which also conforms mostly with RFC2822 guide lines
     match: [/^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/, 'Please enter a valid email'],
     validate: [validateUniqueEmail, 'E-mail address is already in-use']
+  },
+  username: {
+    type: String,
+    unique: true,
+    get: escapeProperty
   },
   roles: {
     type: Array,
@@ -68,9 +72,15 @@ var UserSchema = new Schema({
     type: String,
     default: 'local'
   },
+  modules: {
+    unix:[String],
+    dos:[String],
+    git:[String]
+  },
   salt: String,
   resetPasswordToken: String,
   resetPasswordExpires: Date,
+  profile: {},
   facebook: {},
   twitter: {},
   github: {},

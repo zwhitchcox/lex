@@ -11,10 +11,13 @@
     "angular-ui-router": "#master",
     "web-bootstrap": "./node_modules/meanio/resources/web-bootstrap.js",
     "jquery.terminal": "git://github.com/jcubic/jquery.terminal.git#~0.8.8",
-    "codemirror": "git://github.com/codemirror/CodeMirror.git",
-    "underscore": "~1.8.1"
+    "underscore": "~1.8.1",
+    "skulpt": "~0.9.8",
+    "ace-builds": "~1.1.8",
+    "angular-ui-ace": "bower"
   },
   "resolutions": {
     "jquery": "*"
-  }
+  },
+  "devDependencies": {}
 }

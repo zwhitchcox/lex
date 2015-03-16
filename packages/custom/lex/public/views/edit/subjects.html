@@ -28,10 +28,13 @@
         <a class="btn btn-glyph" ng-click="changeShow(-2)">
           <i class="glyphicon glyphicon-eject"></i>
         </a>
+        <a class="btn btn-glyph" ng-href="/edit/{{subject.type}}/{{subject.name}}/exercises">
+          <i class="glyphicon glyphicon-edit"></i>
+        </a>
       </form>
       <br>
         <ul class="unstyled list-group">
-          <li class="list-group-item" ng-repeat="module in subject.modules track by $index"
+          <li class="list-group-item" ng-repeat="module in subject.modules"
           draggable="true" ng-drop="insert($index,subject)" ng-drag="setDragging($index)">
           {{module}}
           <button class="btn btn-xs btn-inverse pull-right" ng-click="removeModule($index,subject)">

@@ -1,13 +1,10 @@
 <section ng-controller="EditController" ng-init="find()">
   <div class="row">
-  <div ng-repeat="cat in subjectsByCategory">
-    <h3>{{cat.label}}</h3>
-    <a ng-repeat= "subject in cat.subjects"
+    <a ng-repeat= "subject in subjects"
       ng-href="{{subject.type.toLowerCase()}}/{{subject.name.toLowerCase()}}">
-      {{subject.name}}</a>
+      {{subject.name}}
+    </a>
   </div>
-  </ul>
-  <br><br>
 </div>
   <a href="/edit/subjects" class="edit" ng-show="global.isAdmin">
     <i class="glyphicon glyphicon-edit"></i></a>
