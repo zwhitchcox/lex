@@ -10,7 +10,7 @@ angular.module('mean.cli').controller('CLIExerciseEditController', [
       return $scope.global.isAdmin || challenge.user._id === $scope.global.user._id;
     };
     $scope.val = function() {
-      return RegExp($scope.exercise.solution).test($scope.exercise.sample);
+      return RegExp($scope.exercise.check).test($scope.exercise.sample);
     };
     $scope.create = function() {
       var exercise;
@@ -19,9 +19,10 @@ angular.module('mean.cli').controller('CLIExerciseEditController', [
         module: $scope.exercise.module,
         challenge: $scope.exercise.challenge,
         output: $scope.exercise.output,
-        solution: $scope.exercise.solution,
+        check: $scope.exercise.check,
         sample: $scope.exercise.sample,
-        next: $scope.exercise.next
+        next: $scope.exercise.next,
+        prev: $scope.exercise.prev
       });
       return exercise.$save(function(response) {
         return $location.path("edit/cli/" + $stateParams.subjectName + "/exercises");

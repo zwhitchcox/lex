@@ -10,12 +10,11 @@ CLISchema = new Schema(
   sample:
     type: String,
     trim:true
-  solution:
+  check:
     type: String,
     trim: true
   output:
-    type: String,
-    required:true
+    type: String
   subject:
     type: Schema.ObjectId,
     required: true,

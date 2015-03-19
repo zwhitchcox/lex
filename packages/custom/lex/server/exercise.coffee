@@ -21,9 +21,23 @@ exports.create =  (req, res) ->
     if err
       console.log err
       return res.status(500).json(
-        error: 'Cannot save the subject'
+        error: 'Cannot save the exercise'
       )
-
+    if req.body.prev?
+      req.model.findOne({_id:req.body.prev}).exec(
+        (err,prev) ->
+          if err
+            return res.status(500).json(
+              error: 'Cannot create the exercise, could not find prev'
+            )
+          prev.next = exercise._id
+          prev.save((err) ->
+            if err
+              return res.status(500).json(
+                error: 'Cannot update prev'
+              )
+          )
+      )
     res.json exercise
   )
 
@@ -36,6 +50,21 @@ exports.update = (req, res) ->
     if err
       return res.status(500).json(
         error: 'Cannot update the exercise'
+      )
+    if req.body.prev?
+      req.model.findOne({_id:req.body.prev}).exec(
+        (err,prev) ->
+          if err
+            return res.status(500).json(
+              error: 'Cannot create the exercise, could not find prev'
+            )
+          prev.next = exercise._id
+          prev.save((err) ->
+            if err
+              return res.status(500).json(
+                error: 'Cannot update prev'
+              )
+          )
       )
     res.json(exercise);
   )

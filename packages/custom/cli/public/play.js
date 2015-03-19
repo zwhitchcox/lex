@@ -8,7 +8,7 @@ angular.module('mean.cli').controller('CLIPlayController', [
       if (termCmd(cmd, term)) {
 
       } else if ($scope.playing) {
-        if (RegExp($scope.currentX.solution).test(cmd)) {
+        if (RegExp($scope.currentX.check).test(cmd)) {
           term.echo($scope.currentX.output);
           if (!$scope.currentX.right) {
             $scope.currentX.right = 1;
@@ -26,6 +26,8 @@ angular.module('mean.cli').controller('CLIPlayController', [
     $scope.prompt = '$ ';
     $scope.play = function() {
       var seconds;
+      console.log($scope.modules);
+      console.log($scope.curModule);
       if ($scope.exercises.length) {
         if (($scope.currentX == null) || ($scope.currentX.next == null)) {
           $scope.currentX = getRandomExercise();
@@ -33,9 +35,8 @@ angular.module('mean.cli').controller('CLIPlayController', [
           $scope.currentX = _.find($scope.exercises, function(ex) {
             return ex._id === $scope.currentX.next;
           });
-          console.log('found');
         }
-        return $scope.terminal.echo($scope.currentX.challenge);
+        return $scope.terminal.echo("[[;#fff;]" + $scope.currentX.challenge + "]");
       } else {
         Module.get({
           subjectName: $scope.subject,
@@ -43,10 +44,10 @@ angular.module('mean.cli').controller('CLIPlayController', [
         });
         $scope.terminal.echo('Congratulations, you won!');
         seconds = Date.now() / 1000 - $scope.start;
-        $scope.terminal.echo("Time: " + Math.floor(seconds / 60) + ":" + (seconds < 10 ? '0' : '') + Math.floor(seconds));
+        $scope.terminal.echo("Time: " + Math.floor(seconds / 60) + ":" + (seconds < 10 ? '0' : '') + Math.floor(seconds % 60));
         $scope.terminal.echo((1 - $scope.wrongs / $scope.numX) * 100 + "%");
         window.user.modules[$scope.subject].push($scope.currentX.module);
-        setModule($scope.modules.indexOf($scope.curModule) + 1);
+        setModule($scope.curIdx + 1);
         return $scope.playing = false;
       }
     };
@@ -93,7 +94,7 @@ angular.module('mean.cli').controller('CLIPlayController', [
       return $scope.processCmd = getSubject;
     };
     setModule = function(idx) {
-      var j, len, module, ref;
+      var i, j, len, module, ref;
       if (idx != null) {
         $scope.curModule = $.extend(true, {}, $scope.modules[idx]);
         if ($scope.curModule == null) {
@@ -105,9 +106,10 @@ angular.module('mean.cli').controller('CLIPlayController', [
         return;
       }
       ref = $scope.modules;
-      for (j = 0, len = ref.length; j < len; j++) {
-        module = ref[j];
+      for (i = j = 0, len = ref.length; j < len; i = ++j) {
+        module = ref[i];
         if (!~window.user.modules[$scope.subject].indexOf(module.name)) {
+          $scope.curIdx = i;
           $scope.curModule = $.extend(true, {}, module);
           $scope.exercises = $scope.curModule.exercises;
           showModules(null, $scope.terminal);

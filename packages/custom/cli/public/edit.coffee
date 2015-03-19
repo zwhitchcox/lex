@@ -10,7 +10,7 @@ angular.module('mean.cli').controller('CLIExerciseEditController', ['$scope',
       return $scope.global.isAdmin || challenge.user._id == $scope.global.user._id;
 
     $scope.val = () ->
-      return RegExp($scope.exercise.solution).test($scope.exercise.sample)
+      return RegExp($scope.exercise.check).test($scope.exercise.sample)
 
     $scope.create = () ->
       exercise = new CLI(
@@ -18,9 +18,10 @@ angular.module('mean.cli').controller('CLIExerciseEditController', ['$scope',
         module: $scope.exercise.module,
         challenge: $scope.exercise.challenge,
         output: $scope.exercise.output,
-        solution: $scope.exercise.solution,
+        check: $scope.exercise.check,
         sample: $scope.exercise.sample,
-        next: $scope.exercise.next
+        next: $scope.exercise.next,
+        prev: $scope.exercise.prev
       )
       exercise.$save((response) ->
         $location.path("edit/cli/#{$stateParams.subjectName}/exercises");
