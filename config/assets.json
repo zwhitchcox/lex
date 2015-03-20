@@ -15,10 +15,11 @@
         "bower_components/web-bootstrap/index.js",
         "bower_components/jquery.terminal/js/jquery.mousewheel-min.js",
         "bower_components/jquery.terminal/js/jquery.terminal-min.js",
-        "bower_components/codemirror/lib/codemirror.js",
-        "bower_components/codemirror/mode/shell/shell.js",
-        "bower_components/underscore/underscore-min.js"
-      ]
+        "bower_components/ace-builds/src-min/ace.js",
+        "bower_components/ace-builds/src-min/textarea.js",
+        "bower_components/underscore/underscore-min.js",
+        "bower_components/angular-ui-ace/ui-ace.min.js"
+     ]
     }
   }
 }

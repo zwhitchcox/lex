@@ -1,0 +1,16 @@
+<div ng-controller="EditController" ng-init="find()">
+<div ng-repeat="subject in subjects">
+  <span style="font-size:1.15em">{{subject.name}}</span>
+  <br>{{(((userModules[subject.name.toLowerCase()].length/subject.modules.length)||0)*100|number:0)+'%'}}
+  &nbsp;&nbsp;&nbsp;&nbsp;<a style="cursor:pointer" ng-click="clear(subject.name.toLowerCase())">Clear</a>
+  <div class="progress">
+    <div class="progress-bar progress-bar-success progress-bar-striped active"
+    role="progressbar"
+    aria-valuenow="{{(userModules[subject.name.toLowerCase()].length/subject.modules.length)||0}}"
+    aria-valuemin="0" aria-valuemax="100" style="width: {{(userModules[subject.name.toLowerCase()].length/subject.modules.length*100)||0}}%">
+      <span class="sr-only">40% Complete (success)</span>
+    </div>
+  </div>
+  </div>
+
+</div>

@@ -15,7 +15,7 @@ var mongoose = require('mongoose'),
  * Auth callback
  */
 exports.authCallback = function(req, res) {
-  res.redirect('/');
+  res.redirect('/subjects');
 };
 
 /**
@@ -54,9 +54,7 @@ exports.create = function(req, res, next) {
   // because we set our user.provider to local our models/user.js validation will always be true
   req.assert('name', 'You must enter a name').notEmpty();
   req.assert('email', 'You must enter a valid email address').isEmail();
-  req.assert('password', 'Password must be between 8-20 characters long').len(8, 20);
-  req.assert('username', 'Username cannot be more than 20 characters').len(1, 20);
-  req.assert('confirmPassword', 'Passwords do not match').equals(req.body.password);
+  req.assert('password', 'Password must be between 3-20 characters long').len(3, 20);
 
   var errors = req.validationErrors();
   if (errors) {
@@ -67,6 +65,7 @@ exports.create = function(req, res, next) {
   user.roles = ['authenticated'];
   user.save(function(err) {
     if (err) {
+      console.log(err)
       switch (err.code) {
         case 11000:
         case 11001:
@@ -230,3 +229,22 @@ exports.forgotpassword = function(req, res, next) {
     }
   );
 };
+
+exports.subjectName = function(req,res,next,subjectName) {
+  req.subjectName = subjectName
+  next()
+}
+
+exports.moduleName = function(req,res,next,moduleName) {
+  req.moduleName = moduleName
+  next()
+}
+
+exports.addModule = function(req,res) {
+  if (!~req.user.modules[req.subjectName.toLowerCase()].indexOf(req.moduleName)) {
+    req.user.modules[req.subjectName.toLowerCase()].push(req.moduleName)
+    req.user.save(function(err) {
+      res.json(req.user)
+    })
+  }
+}

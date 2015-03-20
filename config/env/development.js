@@ -12,8 +12,8 @@ module.exports = {
     name: 'MEAN - FullStack JS - Development'
   },
   facebook: {
-    clientID: 'DEFAULT_APP_ID',
-    clientSecret: 'APP_SECRET',
+    clientID: '1446047538997456',
+    clientSecret: '2755d91c98f6ccd91f7190fb268d2c97',
     callbackURL: 'http://localhost:3000/api/auth/facebook/callback'
   },
   twitter: {
@@ -22,8 +22,8 @@ module.exports = {
     callbackURL: 'http://localhost:3000/api/auth/twitter/callback'
   },
   github: {
-    clientID: 'DEFAULT_APP_ID',
-    clientSecret: 'APP_SECRET',
+    clientID: '4c37cddb2e9317bcd883',
+    clientSecret: '6d97a3e18fe94dfe4fbd3cfbbc3701ba146ba054',
     callbackURL: 'http://localhost:3000/api/auth/github/callback'
   },
   google: {

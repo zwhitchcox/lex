@@ -15,7 +15,7 @@ body { font-size:15px; background-color:#F5F6F5 }
   right: 30px;
 }
 .back {
-  position: absolute;
+  position: fixed;
   top: 60px;
   left: 30px;
 }
@@ -24,4 +24,11 @@ body { font-size:15px; background-color:#F5F6F5 }
   box-shadow: 0 6px 15px 0 rgba(0, 0, 0, .5);
   border-radius: 6px;
   padding-right:0;
+}
+.forgotpwd {
+  padding-bottom: 10px;
+padding-left: 10px;
+}
+.forgotpwd a {
+  color:#777;
 }

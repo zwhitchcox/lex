@@ -19,11 +19,6 @@ Lex.register(function(app, auth, database) {
   //We enable routing. By default the Package Object is passed to the routes
   Lex.routes(app, auth, database);
 
-  Lex.menus.add({
-    title: 'Subjects',
-    link: 'subjects',
-    menu: 'main'
-  });
 
 
   Lex.aggregateAsset('css', 'lex.css');

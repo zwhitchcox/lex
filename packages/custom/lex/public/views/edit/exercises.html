@@ -1,7 +1,25 @@
 <section ng-controller="EditController" ng-init="getExercises()">
+<div class="row">
+<div class="col-sm-4">
+<select ng-model="curModule.module" ng-options="module as module.name for module in modules" class="form-control">
+</select>
+</div>
+<div class="col-sm-3">
+  <div class="form-group">
+  <input ng-model="curModule.challenge" placeholder="challenge" class="form-control">
+</div>
+</div>
+<div class="col-sm-3">
+  <div class="form-group">
+  <input ng-model="curModule.sample" placeholder="sample" class="form-control">
+</div>
+</div>
+</div>
+<br>
 
-  <ul class="subjects unstyled list-group col-md-8 shadowed-list-group">
-    <li class="list-group-item" ng-repeat="exercise in exercises">
+<ul class="subjects unstyled list-group col-md-8 shadowed-list-group">
+<span ng-repeat="module in modules | filter:{name:curModule.module.name}">
+    <li class="list-group-item" ng-repeat="exercise in module.exercises | filter: {challenge:curModule.challenge} | filter: {sample:curModule.sample}">
       {{exercise.challenge}}
       <a class="btn btn-glyph" ng-href="edit/{{subjectType}}/{{exercise._id}}">
         <i class="glyphicon glyphicon-edit"></i>
@@ -9,7 +27,9 @@
       <a class="btn btn-glyph" ng-click="removeExercise(exercise);">
         <i class="glyphicon glyphicon-trash"></i>
       </a>
+      <span class="pull-right">{{module.name}}</span>
     </li>
-  </ul>
-  <a class="edit" ng-href="/edit/{{subjectType}}/{{subjectName}}/create"><i class="glyphicon glyphicon-plus"></i></a>
+</span>
+</ul>
+<a class="edit" ng-href="/edit/{{subjectType}}/{{subjectName}}/create"><i class="glyphicon glyphicon-plus"></i></a>
 </section>

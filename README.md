@@ -2,7 +2,7 @@ this repository is intended to create a learning by excercises platform.
 
 the penultimate goal is to replace classroom learning completely, but that's a long way off, hence the term "penultimate".
 
-The less ultimate goal is to provide a platform for users to create their own online tutorials. Probably first just for apps, and then, gradually add subjects beyond computer science. This would be really awesome, and it's very ambitious, but I think our education system is outdated. There are a lot of tools that we don't take full advantage of, and I think this could be the future.
+The less penultimate goal is to provide a platform for users to create their own online tutorials. Probably first just for apps, and then, gradually add subjects beyond computer science. This would be really awesome, and it's very ambitious, but I think our education system is outdated. There are a lot of tools that we don't take full advantage of, and I think this could be the future.
 
 So, if you're interested, fork me! And we can create some cool stuff together.
 
@@ -21,3 +21,6 @@ Node is IMHO the hardest part, but made somewhat easier in [Node Schoole](http:/
 Once you know all that (shouldn't take you more than a few days), we bring it all together with [MEAN](http://mean.io). Resources on that [here](http://learn.mean.io).
 
 Once you've conquered all that, why don't we meet back here and regroup?
+
+Thanks for your interest!
+

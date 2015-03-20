@@ -16,6 +16,15 @@ Langs.register(function(app, auth, database) {
   //We enable routing. By default the Package Object is passed to the routes
   Langs.routes(app, auth, database);
 
+  Langs.menus.add({
+    title: 'Command Line Interface',
+    link: 'cli',
+    roles: ['anonymous','authenticated'],
+    menu: 'main'
+  });
+
+  //We are adding a link to the main menu for all authenticated users
+
   Langs.aggregateAsset('css', 'langs.css');
 
   /**
