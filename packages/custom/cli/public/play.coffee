@@ -7,7 +7,8 @@ angular.module('mean.cli').controller('CLIPlayController', ['$scope', '$statePar
       if termCmd cmd,term
       else if $scope.playing
         if RegExp($scope.currentX.check).test(cmd)
-          term.echo($scope.currentX.output)
+          term.echo($scope.currentX.output) if $scope.currentX.output != "" and $scope.currentX.output?
+          console.log $scope.currentX.output
           if !$scope.currentX.right
             $scope.currentX.right = 1
           else $scope.exercises.splice($scope.exercises.indexOf($scope.currentX), 1)
@@ -21,8 +22,6 @@ angular.module('mean.cli').controller('CLIPlayController', ['$scope', '$statePar
     $scope.playing = false
     $scope.prompt = '$ '
     $scope.play = () ->
-      console.log $scope.modules
-      console.log $scope.curModule
       if $scope.exercises.length
         if !$scope.currentX? or !$scope.currentX.next?
           $scope.currentX = getRandomExercise()
@@ -36,7 +35,6 @@ angular.module('mean.cli').controller('CLIPlayController', ['$scope', '$statePar
         $scope.terminal.echo('Congratulations, you won!')
         seconds = (Date.now()/1000-$scope.start)
         $scope.terminal.echo("Time: "+Math.floor(seconds/60)+":" +(if (seconds<10) then '0' else '')+Math.floor(seconds %60))
-        $scope.terminal.echo((1-$scope.wrongs/$scope.numX)*100+"%")
         window.user.modules[$scope.subject].push($scope.currentX.module)
         setModule($scope.curIdx+1)
         $scope.playing = false
@@ -56,7 +54,7 @@ angular.module('mean.cli').controller('CLIPlayController', ['$scope', '$statePar
       """
         Please choose a subject:
 
-         01: Unix    (Mac)
+         01: Unix    (Mac/Linux)
          02: MS DOS  (Windows)
          03: git
 
@@ -104,6 +102,8 @@ angular.module('mean.cli').controller('CLIPlayController', ['$scope', '$statePar
             Welcome to the #{$scope.subject} exercises.
             Use 'help' to show commands, 'start' to begin.
           """
+        if !window.user.modules?
+          window.user.modules = {git:[],unix:[],dos:[]}
         setModule()
       )
 
@@ -130,7 +130,7 @@ angular.module('mean.cli').controller('CLIPlayController', ['$scope', '$statePar
         action:(cmd,term)->
           term.echo($scope.commands)
       start:
-        test: /^\s*start\s*$/g
+        test: /(^\s*start\s*$)|(^\s*st\s*$)/g
         action: ->
           if !$scope.paused
             $scope.playing = true
@@ -158,8 +158,8 @@ angular.module('mean.cli').controller('CLIPlayController', ['$scope', '$statePar
       """
       full                              Full screen
       pfull                             Pretty full screen
-      start                             Begin exercises
-      stop                              Stop exercises and save your progress
+      start, st                         Begin exercises
+      pause                             Pause exercises
       cm <module>                       Change module (by #)
       modules                           Show modules
       clear                             Clear screen

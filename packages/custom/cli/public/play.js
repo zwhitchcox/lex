@@ -9,7 +9,10 @@ angular.module('mean.cli').controller('CLIPlayController', [
 
       } else if ($scope.playing) {
         if (RegExp($scope.currentX.check).test(cmd)) {
-          term.echo($scope.currentX.output);
+          if ($scope.currentX.output !== "" && ($scope.currentX.output != null)) {
+            term.echo($scope.currentX.output);
+          }
+          console.log($scope.currentX.output);
           if (!$scope.currentX.right) {
             $scope.currentX.right = 1;
           } else {
@@ -26,8 +29,6 @@ angular.module('mean.cli').controller('CLIPlayController', [
     $scope.prompt = '$ ';
     $scope.play = function() {
       var seconds;
-      console.log($scope.modules);
-      console.log($scope.curModule);
       if ($scope.exercises.length) {
         if (($scope.currentX == null) || ($scope.currentX.next == null)) {
           $scope.currentX = getRandomExercise();
@@ -45,7 +46,6 @@ angular.module('mean.cli').controller('CLIPlayController', [
         $scope.terminal.echo('Congratulations, you won!');
         seconds = Date.now() / 1000 - $scope.start;
         $scope.terminal.echo("Time: " + Math.floor(seconds / 60) + ":" + (seconds < 10 ? '0' : '') + Math.floor(seconds % 60));
-        $scope.terminal.echo((1 - $scope.wrongs / $scope.numX) * 100 + "%");
         window.user.modules[$scope.subject].push($scope.currentX.module);
         setModule($scope.curIdx + 1);
         return $scope.playing = false;
@@ -68,7 +68,7 @@ angular.module('mean.cli').controller('CLIPlayController', [
       $scope.paused = true;
       return $scope.pauseTime = Date.now() / 1000;
     };
-    subjectOptions = "Please choose a subject:\n\n 01: Unix    (Mac)\n 02: MS DOS  (Windows)\n 03: git\n";
+    subjectOptions = "Please choose a subject:\n\n 01: Unix    (Mac/Linux)\n 02: MS DOS  (Windows)\n 03: git\n";
     getSubject = function(cmd) {
       switch (parseInt(cmd)) {
         case 1:
@@ -128,6 +128,13 @@ angular.module('mean.cli').controller('CLIPlayController', [
       }, function(modules) {
         $scope.modules = modules;
         $scope.terminal.echo("Welcome to the " + $scope.subject + " exercises.\nUse 'help' to show commands, 'start' to begin.");
+        if (window.user.modules == null) {
+          window.user.modules = {
+            git: [],
+            unix: [],
+            dos: []
+          };
+        }
         return setModule();
       });
     };
@@ -166,7 +173,7 @@ angular.module('mean.cli').controller('CLIPlayController', [
         }
       },
       start: {
-        test: /^\s*start\s*$/g,
+        test: /(^\s*start\s*$)|(^\s*st\s*$)/g,
         action: function() {
           if (!$scope.paused) {
             $scope.playing = true;
@@ -196,7 +203,7 @@ angular.module('mean.cli').controller('CLIPlayController', [
         }
       }
     };
-    $scope.commands = "full                              Full screen\npfull                             Pretty full screen\nstart                             Begin exercises\nstop                              Stop exercises and save your progress\ncm <module>                       Change module (by #)\nmodules                           Show modules\nclear                             Clear screen\nand that's about it...\n\n\nDon't worry if you don't totally understand everything right away\n";
+    $scope.commands = "full                              Full screen\npfull                             Pretty full screen\nstart, st                         Begin exercises\npause                             Pause exercises\ncm <module>                       Change module (by #)\nmodules                           Show modules\nclear                             Clear screen\nand that's about it...\n\n\nDon't worry if you don't totally understand everything right away\n";
     return Array.prototype.getIndexBy = function(name, value) {
       var i, j, len, prop;
       for (i = j = 0, len = this.length; j < len; i = ++j) {
