@@ -12,7 +12,6 @@ angular.module('mean.cli').controller('CLIPlayController', [
           if ($scope.currentX.output !== "" && ($scope.currentX.output != null)) {
             term.echo($scope.currentX.output);
           }
-          console.log($scope.currentX.output);
           if (!$scope.currentX.right) {
             $scope.currentX.right = 1;
           } else {
@@ -28,14 +27,16 @@ angular.module('mean.cli').controller('CLIPlayController', [
     $scope.playing = false;
     $scope.prompt = '$ ';
     $scope.play = function() {
-      var seconds;
+      var before, seconds;
       if ($scope.exercises.length) {
-        if (($scope.currentX == null) || ($scope.currentX.next == null)) {
-          $scope.currentX = getRandomExercise();
-        } else {
+        before = $scope.currentX;
+        if (($scope.currentX != null) && ($scope.currentX.next != null)) {
           $scope.currentX = _.find($scope.exercises, function(ex) {
             return ex._id === $scope.currentX.next;
           });
+        }
+        if (($scope.currentX == null) || $scope.currentX === before) {
+          $scope.currentX = getRandomExercise();
         }
         return $scope.terminal.echo("[[;#fff;]" + $scope.currentX.challenge + "]");
       } else {

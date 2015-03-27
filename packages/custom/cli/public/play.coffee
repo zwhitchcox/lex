@@ -8,7 +8,6 @@ angular.module('mean.cli').controller('CLIPlayController', ['$scope', '$statePar
       else if $scope.playing
         if RegExp($scope.currentX.check).test(cmd)
           term.echo($scope.currentX.output) if $scope.currentX.output != "" and $scope.currentX.output?
-          console.log $scope.currentX.output
           if !$scope.currentX.right
             $scope.currentX.right = 1
           else $scope.exercises.splice($scope.exercises.indexOf($scope.currentX), 1)
@@ -17,18 +16,16 @@ angular.module('mean.cli').controller('CLIPlayController', ['$scope', '$statePar
           term.echo("[[;#f00;]#{$scope.currentX.sample}]")
         $scope.play()
 
-
-
     $scope.playing = false
     $scope.prompt = '$ '
     $scope.play = () ->
       if $scope.exercises.length
-        if !$scope.currentX? or !$scope.currentX.next?
-          $scope.currentX = getRandomExercise()
-        else
+        before =$scope.currentX
+        if $scope.currentX? and $scope.currentX.next?
           $scope.currentX = _.find($scope.exercises,
-            (ex) -> return ex._id ==$scope.currentX.next)
-
+            (ex) -> ex._id == $scope.currentX.next)
+        if !$scope.currentX? or $scope.currentX == before
+          $scope.currentX = getRandomExercise()
         $scope.terminal.echo "[[;#fff;]#{$scope.currentX.challenge}]"
       else
         Module.get({subjectName: $scope.subject,moduleName: $scope.currentX.module})
@@ -40,7 +37,7 @@ angular.module('mean.cli').controller('CLIPlayController', ['$scope', '$statePar
         $scope.playing = false
 
     getRandomExercise = () ->
-      while (true)
+      while true
         index = Math.floor(Math.random() * $scope.exercises.length)
         if $scope.exercises.every((ex)->$scope.exercises[index]._id != ex.next)
           break
