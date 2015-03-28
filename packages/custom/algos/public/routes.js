@@ -15,18 +15,18 @@ angular.module('mean.cli').config([
       });
       return deferred.promise;
     };
-    return $stateProvider.state('cli', {
-      url: '/cli/:subjectName',
-      templateUrl: 'cli/views/play.html'
-    }).state('create cli exercise', {
-      url: '/edit/cli/:subjectName/create',
-      templateUrl: 'cli/views/create.html',
+    return $stateProvider.state('algos', {
+      url: '/algos/:subjectName',
+      templateUrl: 'algos/views/play.html'
+    }).state('create algo exercise', {
+      url: '/edit/algos/:subjectName/create',
+      templateUrl: 'algos/views/create.html',
       resolve: {
         loggedin: checkLoggedin
       }
-    }).state('edit cli exercise', {
-      url: '/edit/cli/:exerciseId',
-      templateUrl: 'cli/views/edit.html',
+    }).state('edit algo exercise', {
+      url: '/edit/algos/:exerciseId',
+      templateUrl: 'algos/views/edit.html',
       resolve: {
         loggedin: checkLoggedin
       }

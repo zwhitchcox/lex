@@ -15,7 +15,6 @@ CLI.register(function(app, auth, database) {
 
   //We enable routing. By default the Package Object is passed to the routes
   CLI.routes(app, auth, database);
-  CLI.angularDependencies(['ui.ace']);
   CLI.aggregateAsset('css', 'cli.css');
 
   return CLI;

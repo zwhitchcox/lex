@@ -1,9 +1,60 @@
-<div ng-controller="AlgosCtrl" id="Ctrl">
-<div id="editor"></div>
-
-<button class="btn" ng-click="change()">change</button>
+<link href="bower_components/google-code-prettify/src/prettify.css" type="text/css" rel="stylesheet" />
+<style>
+.container {
+  width:100%;
+  padding:0;
+  margin:0;
+}
+.content {
+  margin-top: 43px;
+}
+.navbar {
+  box-shadow:none;
+}
+#editor {
+  font-size: 14px;
+}
+.btm {
+  position:fixed;
+  bottom: 10px;
+  left:50px;
+}
+.hide {
+  display:none;
+}
+.btn-x {
+  right:10px;
+}
+pre.prettyprint {
+  margin:0;
+  padding:10px;
+  border-radius:0;
+  border:none;
+}
+#solution {
+  overflow-y: scroll
+}
+</style>
+<div ng-controller="AlgosCtrl" id="Ctrl" ng-init="init()">
+<div id="editor" ng-class="editorClass"></div>
+<div ng-class="outputClass">
+  <button class="btn btn-sm btn-danger btn-x" ng-click="hideOutput()">X</button>
+  <div ng-repeat="o in output">
+    {{o}}
+  </div>
+</div>
+<div ng-class="solClass" style="padding:0" id="solution">
+<pre class="prettyprint">
+  {{curEx.solution}}
+</pre>
+</div>
+<div class="btm">
+  <button class="btn btn-success" ng-click="runit()">Run</button>
+  <button class="btn btn-default btn-info" ng-click="sol()">Sol</button>
+  &nbsp;&nbsp;&nbsp;<span ng-bind-html="curEx.challenge"></span>
 </div>
 
+</div>
 
 
 <script src="bower_components/ace-builds/src-noconflict/ace.js"></script>
@@ -12,3 +63,4 @@
 <script src="bower_components/ace-builds/src-noconflict/theme-eclipse.js"></script>
 <script src="bower_components/skulpt/skulpt.min.js"></script>
 <script src="bower_components/skulpt/skulpt-stdlib.js"></script>
+<script src="bower_components/google-code-prettify/src/run_prettify.js?autoload=true&amp;skin=tomorrow&amp;lang=py"></script>

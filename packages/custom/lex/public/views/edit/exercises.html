@@ -20,7 +20,7 @@
 <ul class="subjects unstyled list-group col-md-8 shadowed-list-group">
 <span ng-repeat="module in modules | filter:{name:curModule.module.name}">
     <li class="list-group-item" ng-repeat="exercise in module.exercises | filter: {challenge:curModule.challenge} | filter: {sample:curModule.sample}">
-      {{exercise.challenge}}
+      {{(exercise.name!==undefined) ? exercise.name : exercise.challenge}}
       <a class="btn btn-glyph" ng-href="edit/{{subjectType}}/{{exercise._id}}">
         <i class="glyphicon glyphicon-edit"></i>
       </a>
