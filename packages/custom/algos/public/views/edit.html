@@ -1,0 +1,70 @@
+<section ng-controller="AlgosExerciseEditController" ng-init="findSubjects();findOne()">
+
+
+<a ng-href="/edit/algos/{{exercise.subject.name}}/exercises" class="back">
+  <i class="glyphicon glyphicon-menu-left"></i>
+</a>
+<form class="form-horizontal" name="exerciseForm" ng-submit="update()">
+<div class="form-group">
+<label class="col-sm-2 control-label">Subject</label>
+<div class="col-md-3 col-sm-4">
+  <select ng-model="exercise.subject" ng-options="subject as subject.name for subject in subjects" class="form-control">
+  </select>
+</div>
+</div>
+
+<div class="form-group">
+  <label class="col-sm-2 control-label">Module</label>
+<div class="col-md-3 col-sm-4">
+  <select ng-model="exercise.module" ng-options="module as module for module in exercise.subject.modules"
+  class="form-control" ng-watch="modulesBySubject">
+  </select>
+</div>
+</div>
+
+<div class="form-group">
+  <label class="col-sm-2 control-label">Name</label>
+<div class="col-md-3 col-sm-4">
+  <input ng-model="exercise.name" class="form-control">
+  </select>
+</div>
+</div>
+
+
+<div class="form-group">
+<label class="col-sm-2 control-label">Challenge</label>
+<div class="col-sm-9">
+    <textarea class="form-control" ng-model="exercise.challenge" rows="3"></textarea>
+</div>
+</div>
+
+<div class="form-group">
+<label class="col-sm-2 control-label">Solution</label>
+<div class="col-sm-9">
+    <textarea class="form-control" ng-model="exercise.solution" rows="3"></textarea>
+</div>
+</div>
+
+
+<div class="form-group">
+<label class="col-sm-2 control-label">Check</label>
+<div class="col-sm-9">
+    <textarea class="form-control" ng-model="exercise.check" rows="7"
+      style="font-family:monospace;"></textarea>
+</div>
+</div>
+
+
+<div class="form-group">
+<label class="col-sm-2 control-label">Start</label>
+<div class="col-sm-9">
+    <textarea class="form-control" ng-model="exercise.start" rows="7"
+      style="font-family:monospace;"></textarea>
+</div>
+</div>
+
+<div class="col-sm-offset-2">
+<button type="submit" class="btn btn-info">Save</button>
+</div>
+</form>
+</section>
