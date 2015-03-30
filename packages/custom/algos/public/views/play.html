@@ -39,9 +39,7 @@ pre.prettyprint {
 <div id="editor" ng-class="editorClass"></div>
 <div ng-class="outputClass">
   <button class="btn btn-sm btn-danger btn-x" ng-click="hideOutput()">X</button>
-  <div ng-repeat="o in output">
-    {{o}}
-  </div>
+  <pre>{{output}}</pre>
 </div>
 <div ng-class="solClass" style="padding:0" id="solution">
 <pre class="prettyprint">
@@ -61,6 +59,4 @@ pre.prettyprint {
 <script src="bower_components/ace-builds/src-noconflict/mode-python.js"></script>
 <script src="bower_components/ace-builds/src-noconflict/keybinding-vim.js"></script>
 <script src="bower_components/ace-builds/src-noconflict/theme-eclipse.js"></script>
-<script src="bower_components/skulpt/skulpt.min.js"></script>
-<script src="bower_components/skulpt/skulpt-stdlib.js"></script>
 <script src="bower_components/google-code-prettify/src/run_prettify.js?autoload=true&amp;skin=tomorrow&amp;lang=py"></script>

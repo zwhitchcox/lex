@@ -1,7 +1,7 @@
 'use strict';
 angular.module('mean.algos', ['ngSanitize']).controller('AlgosCtrl', [
-  '$scope', 'Global', '$rootScope', 'Exercises', function($scope, Global, $rootScope, Exercises) {
-    var builtinRead, editor, outf, play, randEx, showOutput;
+  '$scope', 'Global', '$rootScope', 'Exercises', '$resource', function($scope, Global, $rootScope, Exercises, $resource) {
+    var checkSolution, editor, play, randEx, showOutput;
     $scope.global = Global;
     $scope.change = function() {
       return $scope.code = 'hello';
@@ -41,18 +41,6 @@ angular.module('mean.algos', ['ngSanitize']).controller('AlgosCtrl', [
       $scope.outputClass = 'hide';
       return $scope.solClass = 'hide';
     };
-    outf = function(text) {
-      var ctrl;
-      ctrl = angular.element($('[ng-controller="AlgosCtrl"]'));
-      ctrl.scope().output.push(text);
-      return console.log(ctrl.scope().output);
-    };
-    builtinRead = function(x) {
-      if (Sk.builtinFiles === void 0 || Sk.builtinFiles["files"][x] === void 0) {
-        throw "File not found: '" + x + "'";
-      }
-      return Sk.builtinFiles["files"][x];
-    };
     showOutput = function() {
       $scope.editorClass = 'col-md-6';
       $scope.outputClass = 'col-md-6';
@@ -68,16 +56,15 @@ angular.module('mean.algos', ['ngSanitize']).controller('AlgosCtrl', [
       return $scope.outputClass = 'hide';
     };
     $scope.runit = function() {
-      $scope.output = [];
-      Sk.canvas = "mycanvas";
-      Sk.pre = "output";
-      Sk.configure({
-        output: outf,
-        read: builtinRead
+      return $resource('api/interpret/:lang/:code').get({
+        lang: 'py',
+        code: $scope.code
+      }, function(result) {
+        $scope.output = result.output;
+        return showOutput();
       });
-      eval(Sk.importMainWithBody("<stdin>", false, $scope.code));
-      return showOutput();
     };
+    checkSolution = function(ans) {};
     editor = ace.edit("editor");
     editor.setValue($scope.code, 1);
     editor.getSession().setMode("ace/mode/python");

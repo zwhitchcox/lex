@@ -1,6 +1,6 @@
 'use strict';
 angular.module('mean.algos',['ngSanitize']).controller('AlgosCtrl', ['$scope', 'Global','$rootScope',
-  'Exercises', ($scope, Global,$rootScope, Exercises) ->
+  'Exercises', '$resource', ($scope, Global,$rootScope, Exercises, $resource) ->
     $scope.global = Global
     $scope.change = () ->
       $scope.code = 'hello'
@@ -34,15 +34,6 @@ angular.module('mean.algos',['ngSanitize']).controller('AlgosCtrl', ['$scope', '
       $scope.outputClass = 'hide'
       $scope.solClass = 'hide'
 
-    outf = (text) ->
-      ctrl = angular.element($('[ng-controller="AlgosCtrl"]'))
-      ctrl.scope().output.push text
-      console.log(ctrl.scope().output)
-
-    builtinRead = (x) ->
-      if Sk.builtinFiles == undefined || Sk.builtinFiles["files"][x] == undefined
-        throw "File not found: '#{x}'"
-      return Sk.builtinFiles["files"][x]
 
     showOutput = () ->
       $scope.editorClass = 'col-md-6'
@@ -60,12 +51,17 @@ angular.module('mean.algos',['ngSanitize']).controller('AlgosCtrl', ['$scope', '
       $scope.outputClass = 'hide'
 
     $scope.runit = () ->
-      $scope.output = []
-      Sk.canvas = "mycanvas"
-      Sk.pre = "output"
-      Sk.configure({output:outf, read:builtinRead})
-      eval Sk.importMainWithBody("<stdin>",false,$scope.code)
-      showOutput()
+       $resource('api/interpret/:lang/:code')
+         .get({
+           lang: 'py',
+           code:  $scope.code
+         },(result)->
+           $scope.output = result.output
+           showOutput()
+        )
+
+    checkSolution = (ans) ->
+
 
 
     editor = ace.edit("editor")
