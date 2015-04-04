@@ -144,7 +144,7 @@ module.exports = function(passport) {
           provider: 'github',
           github: profile._json,
           roles: ['authenticated'],
-          modules: {unix:[]}
+          modules: {unix:[], git:[], dos:[], algos:[]}
         });
         user.save(function(err) {
           if (err) {

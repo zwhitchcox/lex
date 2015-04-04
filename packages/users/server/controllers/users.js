@@ -25,6 +25,7 @@ exports.signin = function(req, res) {
   if (req.isAuthenticated()) {
     return res.redirect('/');
   }
+  console.log('not authenticated')
   res.redirect('/login');
 };
 

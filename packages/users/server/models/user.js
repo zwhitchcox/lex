@@ -75,7 +75,8 @@ var UserSchema = new Schema({
   modules: {
     unix:[String],
     dos:[String],
-    git:[String]
+    git:[String],
+    algos:[String]
   },
   salt: String,
   resetPasswordToken: String,

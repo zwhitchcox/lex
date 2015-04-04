@@ -39,7 +39,8 @@ exports.create = (req, res) ->
 
 exports.update = (req, res) ->
   subject = req.subject;
-  subject = _.extend(subject, req.body);
+  subject = _.extend(subject, req.body)
+  console.log subject
   subject.save((err) ->
     if (err)
       return res.status(500).json(

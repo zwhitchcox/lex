@@ -9,27 +9,26 @@ exports.code = (req, res, next, code) ->
   req.code = code
   next()
 exports.interpret = (req,res) ->
-  userDir = 'Users/'+req.sessionID
-  createUserChild = exec("echo pwd | sudo -S -u root #{userDir}", (error, stdout, stderr) ->
-    if error?
-      console.log 'exec error: ' + error
-  )
-
-  mkdirp(plgDir,(err) ->
-    fs.writeFile(plgDir + '/test.py', req.code, (err) ->
-      if err
-        return console.log(err);
-
-      child = exec("echo pwd | sudo -S -u #{req.sessionID} python3 #{plgDir}/test.py", (error, stdout, stderr) ->
+  userName    = req.sessionID
+  userPlygDir = "#{__dirname}/playground/#{userId}"
+  password    = Math.floor(Math.random() * 65000) + 10000
+  userId      = Math.floor(Math.random() * 65000) + 10000
+  exec "mkdir -p #{userPlygDir}"
+  exec "chown -Rv #{userName} #{userPlygDir}"
+  fs.writeFile(userPlygDir + '/script.py', req.code, (err) ->
+    if err
+      return console.log(err)
+    else
+      exec "sh #{__dirname}/mkuser.sh #{userName} #{userId} #{password}"
+      exec "sudo -u #{userName} python #{userPlygDir}/script.py",{timeout:3000}, (error, stdout, stderr) ->
         if error?
           console.log 'exec error: ' + error
-      )
-      child.stdout.on('data',  (data) ->
-        res.json(output:data)
-      )
-      child.stderr.on('data',  (data) ->
-        res.json(error:data)
-      )
-
-    )
+        else if stdout !=""
+          res.json(output:stdout)
+        else if stderr !=""
+          res.json(output: error)
+        else
+          res.json output: 'something went wrong'
+        exec "sudo -u #{userName} kill -9 -1"
+        exec "rm -rf #{userPlygDir}"
   )
