@@ -1,28 +1,22 @@
 'use strict';
-angular.module('mean.algos', ['ngSanitize']).controller('AlgosCtrl', [
-  '$scope', 'Global', '$rootScope', 'Exercises', '$resource', function($scope, Global, $rootScope, Exercises, $resource) {
-    var checkSolution, editor, play, randEx, showOutput;
+angular.module('mean.algos', ['ngSanitize', 'ui.bootstrap']).controller('AlgosCtrl', [
+  '$scope', 'Global', '$rootScope', 'Exercises', '$resource', 'Module', function($scope, Global, $rootScope, Exercises, $resource, Module) {
+    var editor;
     $scope.global = Global;
-    $scope.change = function() {
-      return $scope.code = 'hello';
+    $scope.choose = function(ex) {
+      $scope.curEx = $.extend(true, {}, ex);
+      $scope.refreshEx = $.extend(true, {}, ex);
+      editor.setValue($scope.curEx.start, 1);
+      $scope.showEx();
+      return editor.focus();
     };
-    $scope.choose = function(mod) {
-      $scope.showModules = false;
-      editor.resize();
-      editor.renderer.updateFull();
-      return play(mod);
-    };
-    play = function(mod) {
-      $scope.curMod = mod;
-      $scope.curEx = randEx();
-      return editor.setValue($scope.curEx.start, 1);
-    };
-    randEx = function() {
-      return $scope.curMod.exercises[Math.floor(Math.random() * $scope.curMod.exercises.length)];
+    $scope.ref = function() {
+      $scope.curEx = $.extend(true, {}, $scope.refreshEx);
+      editor.setValue($scope.curEx.start, 1);
+      return $scope.showEx();
     };
     $scope.init = function() {
-      $scope.showModules = true;
-      Exercises.query({
+      return Exercises.query({
         subjectName: 'Algorithms',
         modelName: 'algos'
       }, function(modules) {
@@ -35,36 +29,93 @@ angular.module('mean.algos', ['ngSanitize']).controller('AlgosCtrl', [
             algos: []
           };
         }
-        return play($scope.modules[0]);
+        $scope.mod();
+        $scope.solOn = false;
+        return $scope.solShown = false;
       });
+    };
+    $scope.setMod = function(mod) {
+      return $scope.curMod = mod;
+    };
+    $scope.mod = function() {
+      $scope.modulesClass = 'col-md-6';
+      $scope.editorClass = 'hide';
+      $scope.outputClass = 'hide';
+      $scope.solClass = 'hide';
+      return $scope.btmClass = 'hide';
+    };
+    $scope.showEx = function() {
+      $scope.modulesClass = 'hide';
       $scope.editorClass = 'col-md-12';
       $scope.outputClass = 'hide';
-      return $scope.solClass = 'hide';
-    };
-    showOutput = function() {
-      $scope.editorClass = 'col-md-6';
-      $scope.outputClass = 'col-md-6';
-      return $scope.solClass = 'hide';
+      $scope.solClass = 'hide';
+      return $scope.btmClass = 'btm';
     };
     $scope.sol = function() {
-      $scope.editorClass = 'col-md-6';
-      $scope.outputClass = 'hide';
-      return $scope.solClass = 'col-md-6';
+      $scope.solShown = true;
+      if ($scope.solOn) {
+        $scope.editorClass = 'col-md-12';
+        $scope.solClass = 'hide';
+        $scope.solOn = false;
+      } else {
+        $scope.editorClass = 'col-md-6';
+        $scope.solClass = 'col-md-6';
+        $scope.solOn = true;
+        $scope.outputClass = 'hide';
+      }
+      return prettyPrint();
     };
     $scope.hideOutput = function() {
       $scope.editorClass = 'col-md-12';
       return $scope.outputClass = 'hide';
     };
-    $scope.runit = function() {
+    $scope.run = function() {
       return $resource('api/interpret/:lang/:code').get({
         lang: 'py',
         code: $scope.code
       }, function(result) {
+        var error;
         $scope.output = result.output;
-        return showOutput();
+        $scope.editorClass = 'col-md-6';
+        $scope.outputClass = 'col-md-6';
+        $scope.solClass = 'hide';
+        $scope.solOn = false;
+        try {
+          if (window["eval"].call(window, '(function (el) {' + $scope.curEx.check + '})')($scope.output)) {
+            if (!$scope.shown) {
+              Module.get({
+                subjectName: 'Algorithms',
+                moduleName: $scope.curEx._id
+              });
+            }
+            return $scope.outputStatusClass = 'bg-success';
+          } else {
+            return $scope.outputStatusClass = 'bg-danger';
+          }
+        } catch (_error) {
+          error = _error;
+          return $scope.outputStatusClass = 'bg-danger';
+        }
       });
     };
-    checkSolution = function(ans) {};
+    window.onkeydown = function(event) {
+      if ($scope.editorClass !== 'hide' && (event.which === 83 && (event.metaKey || event.ctrlKey))) {
+        event.preventDefault();
+        $scope.$apply($scope.sol());
+      }
+      if ($scope.editorClass !== 'hide' && (event.which === 82 && (event.metaKey || event.ctrlKey))) {
+        event.preventDefault();
+        $scope.$apply($scope.ref());
+      }
+      if ($scope.editorClass !== 'hide' && (event.which === 77 && (event.metaKey || event.ctrlKey))) {
+        event.preventDefault();
+        $scope.$apply($scope.mod());
+      }
+      if ($scope.editorClass !== 'hide' && (event.which === 79 && (event.metaKey || event.ctrlKey))) {
+        event.preventDefault();
+        return $scope.$apply($scope.run());
+      }
+    };
     editor = ace.edit("editor");
     editor.setValue($scope.code, 1);
     editor.getSession().setMode("ace/mode/python");

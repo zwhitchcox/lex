@@ -18,7 +18,8 @@
         "bower_components/ace-builds/src-min/ace.js",
         "bower_components/ace-builds/src-min/textarea.js",
         "bower_components/underscore/underscore-min.js",
-        "bower_components/angular-sanitize/angular-sanitize.min.js"
+        "bower_components/angular-sanitize/angular-sanitize.min.js",
+        "bower_components/angular-ui-bootstrap/src/tooltip/tooltip.js"
      ]
     }
   }

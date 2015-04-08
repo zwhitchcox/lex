@@ -18,7 +18,7 @@ angular.module('mean.cli').controller('AlgosExerciseEditController', ['$scope',
         module: $scope.exercise.module,
         challenge: $scope.exercise.challenge,
         check: $scope.exercise.check,
-        start: $scope.exercise.sample,
+        start: $scope.exercise.start,
         solution: $scope.exercise.solution,
         name: $scope.exercise.name
       )

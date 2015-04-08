@@ -34,21 +34,37 @@ pre.prettyprint {
 #solution {
   overflow-y: scroll
 }
+li {
+  cursor: default;
+}
 </style>
-<div ng-controller="AlgosCtrl" id="Ctrl" ng-init="init()">
+<div ng-controller="AlgosCtrl" id="Ctrl" ng-init="init()" ng-key-press>
+<div ng-class="modulesClass">
+  <ul class="list-group">
+    <span ng-repeat="mod in modules">
+    <li class="list-group-item" ng-click="setMod(mod)">
+      {{mod.name}}
+    </li>
+    <li class="list-group-item col-xs-offset-1" ng-repeat="ex in mod.exercises"
+    ng-show="curMod===mod" ng-click="choose(ex)">
+      {{ex.name}}
+    </li>
+    </span>
+  </ul>
+</div>
 <div id="editor" ng-class="editorClass"></div>
 <div ng-class="outputClass">
-  <button class="btn btn-sm btn-danger btn-x" ng-click="hideOutput()">X</button>
-  <pre>{{output}}</pre>
+  <button class="btn btn-sm btn-danger btn-x pull-right" ng-click="hideOutput()">X</button>
+  <pre ng-class="outputStatusClass">{{output}}</pre>
 </div>
-<div ng-class="solClass" style="padding:0" id="solution">
-<pre class="prettyprint">
-  {{curEx.solution}}
-</pre>
+<div ng-class="solClass">
+<pre id="solution" class="prettyprint lang-py">{{curEx.solution}}</pre>
 </div>
-<div class="btm">
-  <button class="btn btn-success" ng-click="runit()">Run</button>
-  <button class="btn btn-default btn-info" ng-click="sol()">Sol</button>
+<div ng-class="btmClass">
+  <button class="btn"             ng-click="mod()" tooltip-placement="top" tooltip="Modules (Cmd/Ctrl + M")><i class="glyphicon glyphicon-th-list"></i></button>
+  <button class="btn btn-success" ng-click="run()" tooltip-placement="top" tooltip="Output (Run) (Cmd/Ctrl + O)"><i class="glyphicon glyphicon-play"></i></button>
+  <button class="btn btn-info"    ng-click="sol()" tooltip-placement="top" tooltip="Show Solution (Cmd/Ctrl + S)"><i class="glyphicon glyphicon-question-sign"></i></button>
+  <button class="btn btn-info"    ng-click="ref()" tooltip-placement="top" tooltip="Reset (Cmd/Ctrl + R)"><i class="glyphicon glyphicon-refresh"></i></button>
   &nbsp;&nbsp;&nbsp;<span ng-bind-html="curEx.challenge"></span>
 </div>
 

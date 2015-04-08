@@ -1,26 +1,22 @@
 'use strict';
-angular.module('mean.algos',['ngSanitize']).controller('AlgosCtrl', ['$scope', 'Global','$rootScope',
-  'Exercises', '$resource', ($scope, Global,$rootScope, Exercises, $resource) ->
+angular.module('mean.algos',['ngSanitize','ui.bootstrap']).controller('AlgosCtrl', ['$scope', 'Global','$rootScope',
+  'Exercises', '$resource', 'Module', ($scope, Global,$rootScope, Exercises, $resource, Module) ->
     $scope.global = Global
-    $scope.change = () ->
-      $scope.code = 'hello'
 
-    $scope.choose = (mod) ->
-      $scope.showModules = false
-      editor.resize()
-      editor.renderer.updateFull()
-      play(mod)
-
-    play = (mod) ->
-      $scope.curMod = mod
-      $scope.curEx = randEx()
+    $scope.choose = (ex) ->
+      $scope.curEx = $.extend(true, {}, ex)
+      $scope.refreshEx = $.extend(true, {}, ex)
       editor.setValue($scope.curEx.start,1)
+      $scope.showEx()
+      editor.focus()
 
-    randEx = () ->
-      $scope.curMod.exercises[Math.floor(Math.random()*$scope.curMod.exercises.length)]
+
+    $scope.ref = () ->
+      $scope.curEx = $.extend(true, {}, $scope.refreshEx)
+      editor.setValue($scope.curEx.start,1)
+      $scope.showEx()
 
     $scope.init = () ->
-      $scope.showModules = true
       Exercises.query(
           subjectName: 'Algorithms',
           modelName: 'algos'
@@ -28,41 +24,86 @@ angular.module('mean.algos',['ngSanitize']).controller('AlgosCtrl', ['$scope', '
         $scope.modules = modules
         if !window.user.modules?
           window.user.modules = {git:[],unix:[],dos:[],algos:[]}
-        play($scope.modules[0])
+        $scope.mod()
+        $scope.solOn       = false
+        $scope.solShown    = false
+
       )
-      $scope.editorClass = 'col-md-12'
-      $scope.outputClass = 'hide'
-      $scope.solClass = 'hide'
 
+    $scope.setMod = (mod) ->
+      $scope.curMod = mod
 
-    showOutput = () ->
-      $scope.editorClass = 'col-md-6'
-      $scope.outputClass = 'col-md-6'
-      $scope.solClass    = 'hide'
+    $scope.mod = () ->
+      $scope.modulesClass = 'col-md-6'
+      $scope.editorClass  = 'hide'
+      $scope.outputClass  = 'hide'
+      $scope.solClass     = 'hide'
+      $scope.btmClass     = 'hide'
+
+    $scope.showEx = () ->
+      $scope.modulesClass = 'hide'
+      $scope.editorClass  = 'col-md-12'
+      $scope.outputClass  = 'hide'
+      $scope.solClass     = 'hide'
+      $scope.btmClass     = 'btm'
 
     $scope.sol = () ->
-      $scope.editorClass = 'col-md-6'
-      $scope.outputClass = 'hide'
-      $scope.solClass    = 'col-md-6'
+      $scope.solShown = true
+      if $scope.solOn
+        $scope.editorClass = 'col-md-12'
+        $scope.solClass    = 'hide'
+        $scope.solOn = false
+      else
+        $scope.editorClass = 'col-md-6'
+        $scope.solClass    = 'col-md-6'
+        $scope.solOn = true
+        $scope.outputClass = 'hide'
+      prettyPrint()
 
 
     $scope.hideOutput = () ->
       $scope.editorClass = 'col-md-12'
       $scope.outputClass = 'hide'
 
-    $scope.runit = () ->
-       $resource('api/interpret/:lang/:code')
-         .get({
-           lang: 'py',
-           code:  $scope.code
-         },(result)->
-           $scope.output = result.output
-           showOutput()
-        )
+    $scope.run = () ->
+      $resource('api/interpret/:lang/:code')
+        .get({
+          lang: 'py',
+          code:  $scope.code
+        },(result)->
+          $scope.output = result.output
+          $scope.editorClass = 'col-md-6'
+          $scope.outputClass = 'col-md-6'
+          $scope.solClass    = 'hide'
+          $scope.solOn       = false
+          try
+            if window.eval.call(window,'(function (el) {'+$scope.curEx.check+'})')($scope.output)
+              if !$scope.shown
+                Module.get({
+                  subjectName: 'Algorithms',
+                  moduleName: $scope.curEx._id
+                })
+              return $scope.outputStatusClass = 'bg-success'
+            else
+              return $scope.outputStatusClass =  'bg-danger'
+          catch error
+              return $scope.outputStatusClass = 'bg-danger'
 
-    checkSolution = (ans) ->
+      )
 
-
+    window.onkeydown = (event) ->
+      if $scope.editorClass != 'hide' and (event.which == 83 and (event.metaKey or event.ctrlKey))
+        event.preventDefault()
+        $scope.$apply($scope.sol())
+      if $scope.editorClass != 'hide' and (event.which == 82 and (event.metaKey or event.ctrlKey))
+        event.preventDefault()
+        $scope.$apply($scope.ref())
+      if $scope.editorClass != 'hide' and (event.which == 77 and (event.metaKey or event.ctrlKey))
+        event.preventDefault()
+        $scope.$apply($scope.mod())
+      if $scope.editorClass != 'hide' and (event.which == 79 and (event.metaKey or event.ctrlKey))
+        event.preventDefault()
+        $scope.$apply($scope.run())
 
     editor = ace.edit("editor")
     editor.setValue($scope.code,1)

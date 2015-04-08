@@ -9,26 +9,31 @@ exports.code = (req, res, next, code) ->
   req.code = code
   next()
 exports.interpret = (req,res) ->
-  userName    = req.sessionID
-  userPlygDir = "#{__dirname}/playground/#{userId}"
+  userName    = req.sessionID.substring(1,req.sessionID.length)
+  userPlygDir = "#{__dirname}/playground/#{userName}"
   password    = Math.floor(Math.random() * 65000) + 10000
   userId      = Math.floor(Math.random() * 65000) + 10000
-  exec "mkdir -p #{userPlygDir}"
-  exec "chown -Rv #{userName} #{userPlygDir}"
-  fs.writeFile(userPlygDir + '/script.py', req.code, (err) ->
-    if err
-      return console.log(err)
-    else
-      exec "sh #{__dirname}/mkuser.sh #{userName} #{userId} #{password}"
-      exec "sudo -u #{userName} python #{userPlygDir}/script.py",{timeout:3000}, (error, stdout, stderr) ->
-        if error?
-          console.log 'exec error: ' + error
-        else if stdout !=""
-          res.json(output:stdout)
-        else if stderr !=""
-          res.json(output: error)
-        else
-          res.json output: 'something went wrong'
-        exec "sudo -u #{userName} kill -9 -1"
-        exec "rm -rf #{userPlygDir}"
-  )
+  console.log userName
+  exec "mkdir -p #{userPlygDir} && chown -Rv #{userName} #{userPlygDir}", (error1, stdout1, stderr1) ->
+    console.log error1, stdout1, stderr1
+    fs.writeFile userPlygDir + '/script.py', req.code, (err) ->
+      if err
+        return console.log(err)
+      else
+        exec "sh #{__dirname}/mkuser.sh #{userName} #{userId} #{password}"
+        exec "sudo -u #{userName} python #{userPlygDir}/script.py",{timeout:3000}, (error, stdout, stderr) ->
+          if error?
+            res.json(output: stderr)
+          else if stdout !=""
+            res.json(output:stdout)
+          else if stderr !=""
+            res.json(output: stderr)
+          else
+            res.json output: """
+            Something went wrong.
+            Your script only has 3 seconds to execute (for safety reasons).
+            You may not have output anything, dingbat.
+            """
+          exec "sudo -u #{userName} kill -9 -1"
+          exec "rm -rf #{userPlygDir}"
+          exec "dscl . -delete #{userName}"
