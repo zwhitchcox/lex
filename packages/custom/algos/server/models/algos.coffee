@@ -5,24 +5,24 @@ Schema = mongoose.Schema
 
 AlgosSchema = new Schema(
   challenge:
-    type: String,
+    type: String
     required: true
   start:
     type: String
   check:
     type: String
   subject:
-    type: Schema.ObjectId,
-    required: true,
+    type: Schema.ObjectId
+    required: true
     ref: 'Subject'
   module:
-    type: String,
+    type: String
     required:true
   solution:
-    type: String,
+    type: String
     required: true
   name:
-    type:String,
+    type:String
     required: true
 )
 

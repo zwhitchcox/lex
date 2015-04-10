@@ -6,12 +6,19 @@ angular.module('mean.algos', ['ngSanitize', 'ui.bootstrap']).controller('AlgosCt
     $scope.choose = function(ex) {
       $scope.curEx = $.extend(true, {}, ex);
       $scope.refreshEx = $.extend(true, {}, ex);
+      $scope.solShown = false;
       editor.setValue($scope.curEx.start, 1);
       $scope.showEx();
-      return editor.focus();
+      $scope.solOn = false;
+      editor.focus();
+      $('#solution').html('');
+      $('#solution').html($scope.curEx.solution);
+      $('#solution').removeClass('prettyprinted');
+      return prettyPrint();
     };
     $scope.ref = function() {
       $scope.curEx = $.extend(true, {}, $scope.refreshEx);
+      $scope.solShown = false;
       editor.setValue($scope.curEx.start, 1);
       return $scope.showEx();
     };
@@ -34,11 +41,18 @@ angular.module('mean.algos', ['ngSanitize', 'ui.bootstrap']).controller('AlgosCt
         return $scope.solShown = false;
       });
     };
+    $scope.doneTest = function(exid) {
+      if (~window.user.modules.algos.indexOf(exid)) {
+        return 'done';
+      } else {
+        return '';
+      }
+    };
     $scope.setMod = function(mod) {
       return $scope.curMod = mod;
     };
     $scope.mod = function() {
-      $scope.modulesClass = 'col-md-6';
+      $scope.modulesClass = 'col-xs-6';
       $scope.editorClass = 'hide';
       $scope.outputClass = 'hide';
       $scope.solClass = 'hide';
@@ -46,7 +60,7 @@ angular.module('mean.algos', ['ngSanitize', 'ui.bootstrap']).controller('AlgosCt
     };
     $scope.showEx = function() {
       $scope.modulesClass = 'hide';
-      $scope.editorClass = 'col-md-12';
+      $scope.editorClass = 'col-xs-12';
       $scope.outputClass = 'hide';
       $scope.solClass = 'hide';
       return $scope.btmClass = 'btm';
@@ -54,19 +68,18 @@ angular.module('mean.algos', ['ngSanitize', 'ui.bootstrap']).controller('AlgosCt
     $scope.sol = function() {
       $scope.solShown = true;
       if ($scope.solOn) {
-        $scope.editorClass = 'col-md-12';
+        $scope.editorClass = 'col-xs-12';
         $scope.solClass = 'hide';
-        $scope.solOn = false;
+        return $scope.solOn = false;
       } else {
-        $scope.editorClass = 'col-md-6';
-        $scope.solClass = 'col-md-6';
+        $scope.editorClass = 'col-xs-6';
+        $scope.solClass = 'col-xs-6';
         $scope.solOn = true;
-        $scope.outputClass = 'hide';
+        return $scope.outputClass = 'hide';
       }
-      return prettyPrint();
     };
     $scope.hideOutput = function() {
-      $scope.editorClass = 'col-md-12';
+      $scope.editorClass = 'col-xs-12';
       return $scope.outputClass = 'hide';
     };
     $scope.run = function() {
@@ -76,17 +89,18 @@ angular.module('mean.algos', ['ngSanitize', 'ui.bootstrap']).controller('AlgosCt
       }, function(result) {
         var error;
         $scope.output = result.output;
-        $scope.editorClass = 'col-md-6';
-        $scope.outputClass = 'col-md-6';
+        $scope.editorClass = 'col-xs-6';
+        $scope.outputClass = 'col-xs-6';
         $scope.solClass = 'hide';
         $scope.solOn = false;
         try {
           if (window["eval"].call(window, '(function (el) {' + $scope.curEx.check + '})')($scope.output)) {
-            if (!$scope.shown) {
+            if (!$scope.solShown && (doneTest($scope.curEx._id) !== 'done')) {
               Module.get({
-                subjectName: 'Algorithms',
+                subjectName: 'algos',
                 moduleName: $scope.curEx._id
               });
+              window.user.modules.algos.push($scope.curEx._id);
             }
             return $scope.outputStatusClass = 'bg-success';
           } else {
@@ -101,28 +115,36 @@ angular.module('mean.algos', ['ngSanitize', 'ui.bootstrap']).controller('AlgosCt
     window.onkeydown = function(event) {
       if ($scope.editorClass !== 'hide' && (event.which === 83 && (event.metaKey || event.ctrlKey))) {
         event.preventDefault();
-        $scope.$apply($scope.sol());
-      }
-      if ($scope.editorClass !== 'hide' && (event.which === 82 && (event.metaKey || event.ctrlKey))) {
+        return $scope.$apply($scope.sol());
+      } else if ($scope.editorClass !== 'hide' && (event.which === 82 && (event.metaKey || event.ctrlKey))) {
         event.preventDefault();
-        $scope.$apply($scope.ref());
-      }
-      if ($scope.editorClass !== 'hide' && (event.which === 77 && (event.metaKey || event.ctrlKey))) {
+        return $scope.$apply($scope.ref());
+      } else if ($scope.editorClass !== 'hide' && (event.which === 77 && (event.metaKey || event.ctrlKey))) {
         event.preventDefault();
-        $scope.$apply($scope.mod());
-      }
-      if ($scope.editorClass !== 'hide' && (event.which === 79 && (event.metaKey || event.ctrlKey))) {
+        return $scope.$apply($scope.mod());
+      } else if ($scope.editorClass !== 'hide' && (event.which === 79 && (event.metaKey || event.ctrlKey))) {
         event.preventDefault();
         return $scope.$apply($scope.run());
+      } else if ($scope.editorClass === 'hide' && (event.which - 48 >= 0 && event.which - 48 <= 9) && $scope.curMod === void 0) {
+        $scope.$apply($scope.curMod = $scope.modules[event.which - 49]);
+        return event.preventDefault();
+      } else if ($scope.editorClass === 'hide' && (event.which - 48 >= 0 && event.which - 48 <= 9) && $scope.curMod !== void 0) {
+        if ($scope.curMod.exercises[event.which - 49] != null) {
+          $scope.choose($scope.curMod.exercises[event.which - 49]);
+        }
+        $scope.$apply();
+        return event.preventDefault();
       }
     };
     editor = ace.edit("editor");
     editor.setValue($scope.code, 1);
     editor.getSession().setMode("ace/mode/python");
+    editor.getSession().setUseWrapMode(true);
     editor.setTheme("ace/theme/eclipse");
     editor.setKeyboardHandler("ace/keyboard/vim");
     editor.getSession().on('change', function() {
-      return angular.element($('#Ctrl')).scope().code = editor.getSession().getValue();
+      angular.element($('#Ctrl')).scope().code = editor.getSession().getValue();
+      return editor.resize();
     });
     $('#editor').css('height', window.innerHeight - $(".navbar").height() - 70);
     $('#solution').css('height', window.innerHeight - $(".navbar").height() - 70);

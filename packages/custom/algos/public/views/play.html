@@ -37,6 +37,9 @@ pre.prettyprint {
 li {
   cursor: default;
 }
+.done {
+  background-color:#CCC;
+}
 </style>
 <div ng-controller="AlgosCtrl" id="Ctrl" ng-init="init()" ng-key-press>
 <div ng-class="modulesClass">
@@ -46,7 +49,7 @@ li {
       {{mod.name}}
     </li>
     <li class="list-group-item col-xs-offset-1" ng-repeat="ex in mod.exercises"
-    ng-show="curMod===mod" ng-click="choose(ex)">
+    ng-show="curMod===mod" ng-click="choose(ex)" ng-class="doneTest(ex._id)">
       {{ex.name}}
     </li>
     </span>
@@ -67,7 +70,6 @@ li {
   <button class="btn btn-info"    ng-click="ref()" tooltip-placement="top" tooltip="Reset (Cmd/Ctrl + R)"><i class="glyphicon glyphicon-refresh"></i></button>
   &nbsp;&nbsp;&nbsp;<span ng-bind-html="curEx.challenge"></span>
 </div>
-
 </div>
 
 
