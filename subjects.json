@@ -1,0 +1,4 @@
+{"__v":7,"_id":{"$oid":"551edbdf39cc6e7a0f000002"},"modules":["Directories","Files","I/O","System","Code","Variables","Other"],"name":"Unix","type":"cli"}
+{"__v":1,"_id":{"$oid":"551edbea39cc6e7a0f000004"},"modules":["Basics"],"name":"DOS","type":"cli"}
+{"__v":10,"_id":{"$oid":"551edbf439cc6e7a0f000007"},"modules":["Setting Up","Saving Changes","Inspecting a Repository","Viewing Old Commits","Undoing Changes","Rewriting History","Syncing","Using Branches"],"name":"git","type":"cli"}
+{"__v":6,"_id":{"$oid":"551edc0139cc6e7a0f00000b"},"modules":["Dynamic Programming","Search"],"name":"Algorithms","type":"algos"}

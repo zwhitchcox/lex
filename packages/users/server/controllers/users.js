@@ -48,8 +48,11 @@ exports.session = function(req, res) {
  * Create user
  */
 exports.create = function(req, res, next) {
+  if (req.body.username === undefined) {
+    req.body.username = req.body.email
+  }
+  console.log(req.body)
   var user = new User(req.body);
-
   user.provider = 'local';
 
   // because we set our user.provider to local our models/user.js validation will always be true

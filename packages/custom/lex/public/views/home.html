@@ -1,10 +1,10 @@
 <style>
 
-body{
-  background: url(lex/assets/img/space.jpg) no-repeat center center fixed;
-  -webkit-background-size: cover;
-  -moz-background-size: cover;
-  -o-background-size: cover;
+video#bgvid {
+  position: fixed; right: 0; bottom: 0;
+  min-width: 100%; min-height: 100%;
+  width: auto; height: auto; z-index: -100;
+  background: url(lex/assets/img/space.jpg) no-repeat;
   background-size: cover;
 }
 
@@ -40,8 +40,8 @@ body{
 }
 
 .intro-bg {
-  box-shadow: 0px 0px 3px rgba(255,255,255,.7);
-  background:rgba(255,255,255,.2);
+  box-shadow: 0px 0px 3px rgba(100,100,100,.7);
+  background:rgba(100,100,100,.3);
   border-radius:10px;
   padding:20px;
   width:60%;
@@ -71,6 +71,9 @@ body{
   left: 30px;
 }
 </style>
+<video autoplay loop id="bgvid">
+<source src="http://i.imgur.com/mPfOTj1.webm" type="video/webm" id="vidsrc">
+</video>
 <div class="intro-container">
 <div class="intro">
   <h1 class="main-heading">LexCS</h1>
@@ -105,3 +108,25 @@ body{
   tutorial app by LexCS.com!
 </div>
 </div>
+<script>
+var urls =
+  [
+    // "http://i.imgur.com/rxUo92Y.webm", // waterfall
+    "http://i.imgur.com/mPfOTj1.webm", // waves
+    // "http://i.imgur.com/YY2V3d3.webm", // clouds
+    // "http://i.imgur.com/MSBlVxS.webm", // sunset
+    // "http://i.imgur.com/9F9QLiR.webm", // storm
+    // "http://i.imgur.com/LLpE0G0.webm", // designs
+    // "http://i.imgur.com/2MhRRdW.webm", // subway
+    // "http://i.imgur.com/2x2Cdw6.webm", // bird
+    // "http://i.imgur.com/rn8jhB5.webm", // beautiful physics
+    // "http://i.imgur.com/LVnBFUv.webm", // volcano
+    // "http://i.imgur.com/xV0emy0.webm", // humming bird
+    // "http://fat.gfycat.com/RipeHonorableBallpython.webm", // dark side of the moon
+    // "http://fat.gfycat.com/TartMilkyErne.webm", // hump back whale
+    // "http://i.imgur.com/XvSLSVc.webm", // mom
+    // "http://i.imgur.com/0E0Wnlt.webm", // amazon robot army
+  ]
+$('#vidsrc').attr('src',urls[Math.floor(Math.random()*urls.length)])
+
+</script>

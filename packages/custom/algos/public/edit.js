@@ -21,7 +21,10 @@ angular.module('mean.cli').controller('AlgosExerciseEditController', [
         check: $scope.exercise.check,
         start: $scope.exercise.start,
         solution: $scope.exercise.solution,
-        name: $scope.exercise.name
+        name: $scope.exercise.name,
+        vid: $scope.exercise.vid,
+        vStart: $scope.exercise.vStart,
+        vEnd: $scope.exercise.vEnd
       });
       return exercise.$save(function(response) {
         return $location.path("edit/algos/" + $stateParams.subjectName + "/exercises");
@@ -44,6 +47,16 @@ angular.module('mean.cli').controller('AlgosExerciseEditController', [
           });
         }
       });
+    };
+    window.onkeydown = function(event) {
+      if (event.which === 83 && (event.metaKey || event.ctrlKey)) {
+        event.preventDefault();
+        if ($scope.creating === true) {
+          return $scope.$apply($scope.create());
+        } else {
+          return $scope.$apply($scope.update());
+        }
+      }
     };
     return $scope.findOne = function() {
       return Algos.get({

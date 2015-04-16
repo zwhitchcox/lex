@@ -13,18 +13,19 @@ angular.module('mean.cli').controller('AlgosExerciseEditController', ['$scope',
       return RegExp($scope.exercise.check).test($scope.exercise.sample)
 
     $scope.create = () ->
-      exercise = new Algos(
+      exercise = new Algos
         subject: $scope.exercise.subject._id,
         module: $scope.exercise.module,
         challenge: $scope.exercise.challenge,
         check: $scope.exercise.check,
         start: $scope.exercise.start,
         solution: $scope.exercise.solution,
-        name: $scope.exercise.name
-      )
-      exercise.$save((response) ->
-        $location.path("edit/algos/#{$stateParams.subjectName}/exercises");
-      )
+        name: $scope.exercise.name,
+        vid: $scope.exercise.vid,
+        vStart: $scope.exercise.vStart,
+        vEnd: $scope.exercise.vEnd
+      exercise.$save (response) ->
+        $location.path "edit/algos/#{$stateParams.subjectName}/exercises"
 
     $scope.update = () ->
       $scope.exercise.$update((response) ->
@@ -41,7 +42,13 @@ angular.module('mean.cli').controller('AlgosExerciseEditController', ['$scope',
               $scope.exercise.subject = cur
           )
       )
-
+    window.onkeydown = (event) ->
+      if event.which == 83 and (event.metaKey or event.ctrlKey)
+        event.preventDefault()
+        if $scope.creating == true
+          $scope.$apply $scope.create()
+        else
+          $scope.$apply $scope.update()
     $scope.findOne = () ->
       Algos.get({
         exerciseId: $stateParams.exerciseId

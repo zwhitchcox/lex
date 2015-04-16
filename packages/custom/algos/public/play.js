@@ -1,8 +1,30 @@
 'use strict';
 angular.module('mean.algos', ['ngSanitize', 'ui.bootstrap']).controller('AlgosCtrl', [
-  '$scope', 'Global', '$rootScope', 'Exercises', '$resource', 'Module', function($scope, Global, $rootScope, Exercises, $resource, Module) {
+  '$scope', 'Global', '$rootScope', 'Exercises', '$resource', 'Module', '$modal', function($scope, Global, $rootScope, Exercises, $resource, Module, $modal) {
     var editor;
     $scope.global = Global;
+    $scope.vid = function() {
+      var modalInstance, url;
+      if ($scope.curEx.vEnd != null) {
+        url = "//www.youtube.com/embed/" + $scope.curEx.vid + "?start=" + $scope.curEx.vStart + "&end=" + $scope.curEx.vEnd;
+      } else if ($scope.curEx.vStart != null) {
+        url = "//www.youtube.com/embed/" + $scope.curEx.vid + "?start=" + $scope.curEx.vStart;
+      } else {
+        url = "//www.youtube.com/embed/" + $scope.curEx.vid;
+      }
+      return modalInstance = $modal.open({
+        template: "<style>\n  iframe {\n    margin-top:4px;\n  }\n</style>\n<center>\n<iframe width=\"590\" height=\"332\"\nsrc=\"" + url + "\"\nframeborder=\"0\" allowfullscreen>\n</iframe>\n</center>",
+        controller: function($scope, $modalInstance) {
+          return $scope.close = function() {
+            console.log('tried');
+            return $modalInstance.dismiss();
+          };
+        }
+      });
+    };
+    $scope.closeVid = function() {
+      return $modalInstance.dismiss('cancel');
+    };
     $scope.choose = function(ex) {
       $scope.curEx = $.extend(true, {}, ex);
       $scope.refreshEx = $.extend(true, {}, ex);
@@ -67,15 +89,13 @@ angular.module('mean.algos', ['ngSanitize', 'ui.bootstrap']).controller('AlgosCt
     };
     $scope.sol = function() {
       $scope.solShown = true;
-      if ($scope.solOn) {
-        $scope.editorClass = 'col-xs-12';
-        $scope.solClass = 'hide';
-        return $scope.solOn = false;
-      } else {
+      if ($scope.solClass !== 'col-xs-6') {
         $scope.editorClass = 'col-xs-6';
         $scope.solClass = 'col-xs-6';
-        $scope.solOn = true;
         return $scope.outputClass = 'hide';
+      } else {
+        $scope.editorClass = 'col-xs-12';
+        return $scope.solClass = 'hide';
       }
     };
     $scope.hideOutput = function() {
@@ -95,7 +115,7 @@ angular.module('mean.algos', ['ngSanitize', 'ui.bootstrap']).controller('AlgosCt
         $scope.solOn = false;
         try {
           if (window["eval"].call(window, '(function (el) {' + $scope.curEx.check + '})')($scope.output)) {
-            if (!$scope.solShown && (doneTest($scope.curEx._id) !== 'done')) {
+            if (!$scope.solShown && ($scope.doneTest($scope.curEx._id) !== 'done')) {
               Module.get({
                 subjectName: 'algos',
                 moduleName: $scope.curEx._id
@@ -108,6 +128,7 @@ angular.module('mean.algos', ['ngSanitize', 'ui.bootstrap']).controller('AlgosCt
           }
         } catch (_error) {
           error = _error;
+          console.log(error);
           return $scope.outputStatusClass = 'bg-danger';
         }
       });
@@ -139,7 +160,7 @@ angular.module('mean.algos', ['ngSanitize', 'ui.bootstrap']).controller('AlgosCt
     editor = ace.edit("editor");
     editor.setValue($scope.code, 1);
     editor.getSession().setMode("ace/mode/python");
-    editor.getSession().setUseWrapMode(true);
+    editor.setOption("wrap", true);
     editor.setTheme("ace/theme/eclipse");
     editor.setKeyboardHandler("ace/keyboard/vim");
     editor.getSession().on('change', function() {
@@ -147,10 +168,11 @@ angular.module('mean.algos', ['ngSanitize', 'ui.bootstrap']).controller('AlgosCt
       return editor.resize();
     });
     $('#editor').css('height', window.innerHeight - $(".navbar").height() - 70);
-    $('#solution').css('height', window.innerHeight - $(".navbar").height() - 70);
+    $('pre').css('height', window.innerHeight - $(".navbar").height() - 70);
+    $('pre').css('overflow-y', 'scroll');
     return window.onresize = function() {
       $('#editor').css('height', window.innerHeight - $(".navbar").height() - 70);
-      return $('#solution').css('height', window.innerHeight - $(".navbar").height() - 70);
+      return $('pre').css('height', window.innerHeight - $(".navbar").height() - 70);
     };
   }
 ]);

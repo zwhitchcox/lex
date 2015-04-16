@@ -22,8 +22,14 @@ AlgosSchema = new Schema(
     type: String
     required: true
   name:
-    type:String
+    type: String
     required: true
+  vid:
+    type: String
+  vStart:
+    type: Number
+  vEnd:
+    type: Number
 )
 
 

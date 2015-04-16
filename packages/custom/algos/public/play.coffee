@@ -1,8 +1,36 @@
 'use strict';
 angular.module('mean.algos',['ngSanitize','ui.bootstrap']).controller('AlgosCtrl', ['$scope', 'Global','$rootScope',
-  'Exercises', '$resource', 'Module', ($scope, Global,$rootScope, Exercises, $resource, Module) ->
+  'Exercises', '$resource', 'Module','$modal', ($scope, Global,$rootScope, Exercises, $resource, Module,$modal) ->
     $scope.global = Global
+    $scope.vid = () ->
+      if $scope.curEx.vEnd?
+        url = "//www.youtube.com/embed/#{$scope.curEx.vid}?start=#{$scope.curEx.vStart}&end=#{$scope.curEx.vEnd}"
+      else if $scope.curEx.vStart?
+        url = "//www.youtube.com/embed/#{$scope.curEx.vid}?start=#{$scope.curEx.vStart}"
+      else
+        url = "//www.youtube.com/embed/#{$scope.curEx.vid}"
+      modalInstance = $modal.open
+        template:
+          """
+            <style>
+              iframe {
+                margin-top:4px;
+              }
+            </style>
+            <center>
+            <iframe width="590" height="332"
+            src="#{url}"
+            frameborder="0" allowfullscreen>
+            </iframe>
+            </center>
+          """
+        controller: ($scope, $modalInstance) ->
+          $scope.close =  () ->
+            console.log 'tried'
+            $modalInstance.dismiss()
 
+    $scope.closeVid = () ->
+      $modalInstance.dismiss('cancel')
 
     $scope.choose = (ex) ->
       $scope.curEx = $.extend(true, {}, ex)
@@ -62,15 +90,13 @@ angular.module('mean.algos',['ngSanitize','ui.bootstrap']).controller('AlgosCtrl
 
     $scope.sol = () ->
       $scope.solShown = true
-      if $scope.solOn
-        $scope.editorClass = 'col-xs-12'
-        $scope.solClass    = 'hide'
-        $scope.solOn = false
-      else
+      if $scope.solClass != 'col-xs-6'
         $scope.editorClass = 'col-xs-6'
         $scope.solClass    = 'col-xs-6'
-        $scope.solOn = true
         $scope.outputClass = 'hide'
+      else
+        $scope.editorClass = 'col-xs-12'
+        $scope.solClass    = 'hide'
 
     $scope.hideOutput = () ->
       $scope.editorClass = 'col-xs-12'
@@ -89,7 +115,7 @@ angular.module('mean.algos',['ngSanitize','ui.bootstrap']).controller('AlgosCtrl
           $scope.solOn       = false
           try
             if window.eval.call(window,'(function (el) {'+$scope.curEx.check+'})')($scope.output)
-              if !$scope.solShown and (doneTest($scope.curEx._id) != 'done')
+              if !$scope.solShown and ($scope.doneTest($scope.curEx._id) != 'done')
                 Module.get({
                   subjectName: 'algos',
                   moduleName: $scope.curEx._id
@@ -99,10 +125,10 @@ angular.module('mean.algos',['ngSanitize','ui.bootstrap']).controller('AlgosCtrl
             else
               return $scope.outputStatusClass =  'bg-danger'
           catch error
-              return $scope.outputStatusClass = 'bg-danger'
+            console.log error
+            return $scope.outputStatusClass = 'bg-danger'
 
       )
-
     window.onkeydown = (event) ->
       if $scope.editorClass != 'hide' and (event.which == 83 and (event.metaKey or event.ctrlKey))
         event.preventDefault()
@@ -127,7 +153,7 @@ angular.module('mean.algos',['ngSanitize','ui.bootstrap']).controller('AlgosCtrl
     editor = ace.edit("editor")
     editor.setValue($scope.code,1)
     editor.getSession().setMode("ace/mode/python")
-    editor.getSession().setUseWrapMode(true)
+    editor.setOption("wrap", true)
     editor.setTheme("ace/theme/eclipse");
     editor.setKeyboardHandler("ace/keyboard/vim")
     editor.getSession().on('change', ()->
@@ -135,8 +161,9 @@ angular.module('mean.algos',['ngSanitize','ui.bootstrap']).controller('AlgosCtrl
       editor.resize()
     )
     $('#editor').css('height',window.innerHeight - $(".navbar").height()-70)
-    $('#solution').css('height',window.innerHeight - $(".navbar").height()-70)
+    $('pre').css('height',window.innerHeight - $(".navbar").height()-70)
+    $('pre').css('overflow-y','scroll')
     window.onresize = () ->
       $('#editor').css('height',window.innerHeight - $(".navbar").height()-70)
-      $('#solution').css('height',window.innerHeight - $(".navbar").height()-70)
+      $('pre').css('height',window.innerHeight - $(".navbar").height()-70)
 ])
