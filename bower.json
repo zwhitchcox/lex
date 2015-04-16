@@ -20,7 +20,8 @@
     "angular-ui-bootstrap": "~0.12.1"
   },
   "resolutions": {
-    "jquery": "*"
+    "jquery": "*",
+    "angular": ">=1"
   },
   "devDependencies": {}
 }
