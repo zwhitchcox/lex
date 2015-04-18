@@ -20,6 +20,7 @@ var del = require('del'),
     _ = require('lodash'),
     coffee = require('gulp-coffee')
 
+
 function count(taskName, message) {
   var fileCount = 0;
 
