@@ -1,5 +1,4 @@
 'use strict';
-
 var del = require('del'),
     path = require('path'),
     gulp = require('gulp'),
