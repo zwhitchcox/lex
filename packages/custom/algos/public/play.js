@@ -16,7 +16,6 @@ angular.module('mean.algos', ['ngSanitize', 'ui.bootstrap']).controller('AlgosCt
         template: "<style>\n  iframe {\n    margin-top:4px;\n  }\n</style>\n<center>\n<iframe width=\"590\" height=\"332\"\nsrc=\"" + url + "\"\nframeborder=\"0\" allowfullscreen>\n</iframe>\n</center>",
         controller: function($scope, $modalInstance) {
           return $scope.close = function() {
-            console.log('tried');
             return $modalInstance.dismiss();
           };
         }

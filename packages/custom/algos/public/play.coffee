@@ -26,7 +26,6 @@ angular.module('mean.algos',['ngSanitize','ui.bootstrap']).controller('AlgosCtrl
           """
         controller: ($scope, $modalInstance) ->
           $scope.close =  () ->
-            console.log 'tried'
             $modalInstance.dismiss()
 
     $scope.closeVid = () ->
