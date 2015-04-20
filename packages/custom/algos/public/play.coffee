@@ -102,7 +102,6 @@ angular.module('mean.algos',['ngSanitize','ui.bootstrap']).controller('AlgosCtrl
       $scope.outputClass = 'hide'
 
     $scope.run = () ->
-      console.log 'wtf'
       $resource('api/interpret/:lang/:code')
         .get({
           lang: 'py',
