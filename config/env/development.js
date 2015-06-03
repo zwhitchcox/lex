@@ -8,6 +8,7 @@ module.exports = {
   mongoose: {
     debug: false
   },
+  secret:'balloon',
   app: {
     name: 'MEAN - FullStack JS - Development'
   },
